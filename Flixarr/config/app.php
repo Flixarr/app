@@ -20,6 +20,17 @@ return [
 
     /*
     |--------------------------------------------------------------------------
+    | Application Build
+    |--------------------------------------------------------------------------
+    |
+    | This value is the build or version of your application. 
+    |
+    */
+
+    'build' => env('APP_BUILD'),
+
+    /*
+    |--------------------------------------------------------------------------
     | Application Environment
     |--------------------------------------------------------------------------
     |
@@ -168,6 +179,12 @@ return [
         // App\Providers\BroadcastServiceProvider::class,
         App\Providers\EventServiceProvider::class,
         App\Providers\RouteServiceProvider::class,
+
+        // Jenssegers/Agent
+        // https://github.com/jenssegers/agent
+        // Required to get browser information for Plex Authentication
+        // Alias "Agent" added below
+        Jenssegers\Agent\AgentServiceProvider::class,
     ])->toArray(),
 
     /*
@@ -183,6 +200,11 @@ return [
 
     'aliases' => Facade::defaultAliases()->merge([
         // 'Example' => App\Facades\Example::class,
+
+        // Jenssegers/Agent
+        // https://github.com/jenssegers/agent
+        // Required to get browser information for Plex Authentication
+        'Agent' => Jenssegers\Agent\Facades\Agent::class,
     ])->toArray(),
 
 ];

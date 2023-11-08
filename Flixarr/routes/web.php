@@ -1,5 +1,6 @@
 <?php
 
+use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -13,6 +14,10 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::get('/', function () {
-    return view('welcome');
+Route::view('/', 'pages.index.index-page');
+Route::get('/setup', App\Http\Pages\Setup\SetupPage::class);
+
+Route::view('/loading', 'pages.loading');
+
+Route::get('/test', function () {
 });

@@ -3,36 +3,56 @@ const defaultTheme = require("tailwindcss/defaultTheme");
 const colors = require("tailwindcss/colors");
 
 module.exports = {
+    darkMode: "class",
     content: [
-        "./resources/**/*.blade.php",
-        "./resources/css/**/*.css",
-        "./vendor/usernotnull/tall-toasts/config/**/*.php",
-        "./vendor/usernotnull/tall-toasts/resources/views/**/*.blade.php",
+        "./resources/views/**/*.blade.php",
+        "./app/View/Components/**/*.php",
     ],
     theme: {
         extend: {
             colors: {
                 primary: {
-                    dark: colors.blue[700],
-                    DEFAULT: colors.blue[600],
-                    light: colors.blue[500],
-                    muted: colors.blue[300],
-                    lighter: colors.blue[100],
-                    lightest: colors.blue[50],
+                    DEFAULT: colors.orange[600],
+                    light: colors.orange[500],
+                    dark: colors.orange[700],
                 },
                 muted: {
-                    DEFAULT: colors.gray[500],
-                    light: colors.gray[300],
-                    lighter: colors.gray[200],
-                    lightest: colors.gray[100],
+                    DEFAULT: colors.slate[500],
+                    light: colors.slate[400],
+                    lighter: colors.slate[200],
+                    dark: colors.slate[600],
                 },
                 gray: colors.slate,
             },
-        },
-    },
-    variants: {
-        extend: {
-            lineClamp: ["focus"],
+            screens: {
+                phone: "480px", // => @media (min-width: 480px) { ... }
+                tablet: "640px", // => @media (min-width: 640px) { ... }
+                "tablet-lg": "768px", // => @media (min-width: 640px) { ... }
+                laptop: "1024px", // => @media (min-width: 1024px) { ... }
+                desktop: "1280px", // => @media (min-width: 1280px) { ... }
+            },
+            fontFamily: {
+                inter: ["Inter", "sans-serif"],
+                logo: ["Logo"],
+            },
+            fontWeight: {
+                thin: "100",
+                extralight: "200",
+                light: "300",
+                normal: "400",
+                medium: "500",
+                semibold: "600",
+                bold: "700",
+                extrabold: "800",
+                black: "900",
+            },
+            backgroundSize: {
+                "size-200": "200% 200%",
+            },
+            backgroundPosition: {
+                "pos-0": "0% 0%",
+                "pos-100": "100% 100%",
+            },
         },
     },
     plugins: [

@@ -1,27 +1,33 @@
-<div
-    class="overflow-hidden z-50 p-5 bg-white rounded-md shadow cursor-pointer pointer-events-auto select-none ltr:border-l-8 rtl:border-r-8 hover:bg-gray-50 dark:hover:bg-gray-900 dark:bg-black"
-    x-bind:class="{
-                    'border-blue-700': toast.type === 'info',
-                    'border-green-700': toast.type === 'success',
-                    'border-yellow-700': toast.type === 'warning',
-                    'border-red-700': toast.type === 'danger'
-                  }"
->
-    <div class="flex justify-between items-center space-x-5 rtl:space-x-reverse">
-        <div class="flex-1 ltr:mr-2 rtl:ml-2">
-            <div
-                class="mb-1 text-lg font-black tracking-widest text-gray-900 uppercase font-large dark:text-gray-100"
-                x-html="toast.title"
-                x-show="toast.title !== undefined"
-            ></div>
-
-            <div
-                class="text-gray-900 dark:text-gray-200"
-                x-show="toast.message !== undefined"
-                x-html="toast.message"
-            ></div>
+<div class="px-3 py-2 m-5 bg-gray-900 border rounded-full shadow-2xl cursor-pointer group bg-gradient-to-r" :class="{
+    'from-blue-700/30 to-blue-950/5 to-80% border-gray-700/50': toast.type === 'info',
+    'from-green-700/30 to-red-950/10 to-80% border-gray-700/50': toast.type === 'success',
+    'from-yellow-500/30 to-red-950/10 to-80% border-gray-700/50': toast.type === 'warning',
+    'from-red-700/30 to-red-950/10 to-80% border-gray-700/50': toast.type === 'danger',
+    'from-gray-700/40 to-red-950/10 to-80% border-gray-700/50': toast.type === 'debug',
+}">
+    <div class="flex items-center space-x-2">
+        <div class="mt-px">
+            @include('tall-toasts::includes.icon')
+        </div>
+        <div class="w-full">
+            {{-- Title --}}
+            <div class="font-medium" x-html="toast.title" x-show="toast.title !== undefined" :class="{
+                'text-blue-500': toast.type === 'info',
+            
+                'text-green-500': toast.type === 'success',
+                'text-yellow-500': toast.type === 'warning',
+                'text-red-500': toast.type === 'danger',
+                'text-white': toast.type === 'debug',
+            }"></div>
+            {{-- Message --}}
+            <div class="text-sm leading-5 text-white/70" x-show="toast.message !== undefined" x-html="toast.message"></div>
         </div>
 
-        @include('tall-toasts::includes.icon')
+        <button class="block">
+            {{-- Close button --}}
+            <svg class="w-5 h-5 group-hover:text-white text-muted-dark" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
+                <path fill-rule="evenodd" d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z" clip-rule="evenodd"></path>
+            </svg>
+        </button>
     </div>
 </div>
