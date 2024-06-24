@@ -49,3 +49,7 @@ Livewire.hook("request", ({ fail }) => {
         }
     });
 });
+
+Livewire.on("console-log", (event) => {
+    console.log(event);
+});

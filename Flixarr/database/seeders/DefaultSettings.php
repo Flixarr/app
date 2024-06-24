@@ -27,12 +27,12 @@ class DefaultSettings extends Seeder
                 'value' => false,
             ],
             [
-                'key' => 'setup_plex_auth_completed',
-                'value' => false,
+                'key' => 'setup_step',
+                'value' => 0,
             ],
             [
-                'key' => 'setup_plex_server_completed',
-                'value' => false,
+                'key' => 'plex_token',
+                'value' => null,
             ],
         ]);
     }

@@ -5,19 +5,24 @@ use Illuminate\Support\Facades\Route;
 
 /*
 |--------------------------------------------------------------------------
-| Web Routes
-|--------------------------------------------------------------------------
-|
-| Here is where you can register web routes for your application. These
-| routes are loaded by the RouteServiceProvider and all of them will
-| be assigned to the "web" middleware group. Make something great!
-|
+| Setup Routes
+|--------------------------------------------------------------------------|
 */
 
-Route::view('/', 'pages.index.index-page');
-Route::get('/setup', App\Http\Pages\Setup\SetupPage::class);
+Route::view('/', 'pages.index.index-page')->name('home');
 
-Route::view('/loading', 'pages.loading');
+/*
+|--------------------------------------------------------------------------
+| Setup Routes
+|--------------------------------------------------------------------------|
+*/
 
-Route::get('/test', function () {
-});
+Route::get('/setup', App\Http\Pages\Setup\SetupIndex::class)->name('setup');
+
+/*
+|--------------------------------------------------------------------------
+| Utility Routes
+|--------------------------------------------------------------------------|
+*/
+
+Route::view('/loading', 'pages.loading')->name('loading');

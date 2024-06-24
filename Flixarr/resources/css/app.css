@@ -35,10 +35,10 @@
         @apply h-full bg-gray-950 font-inter text-white subpixel-antialiased;
     }
     body {
-        /* @apply bg-[radial-gradient(ellipse_at_center,_var(--tw-gradient-stops))] from-gray-700/60 to-gray-800/10; */
+        @apply bg-[radial-gradient(ellipse_at_center,_var(--tw-gradient-stops))] from-gray-700/50 to-gray-950/10;
         /* @apply bg-[radial-gradient(ellipse_at_center,_var(--tw-gradient-stops))] from-gray-700/50 to-gray-800/10; */
         /* @apply bg-[radial-gradient(ellipse_at_center,_var(--tw-gradient-stops))] from-gray-500/30 to-gray-800/30; */
-        @apply bg-[radial-gradient(ellipse_at_center,_var(--tw-gradient-stops))] from-gray-500/20 to-gray-950/90;
+        /* @apply bg-[radial-gradient(ellipse_at_center,_var(--tw-gradient-stops))] from-gray-400/20 to-gray-950/90; */
     }
 }
 
@@ -47,7 +47,7 @@
         @apply px-2 text-6xl text-white underline font-logo drop-shadow-xl underline-offset-2 decoration-primary;
     }
     .text-sub {
-        @apply text-xs text-muted;
+        @apply text-xs text-muted-dark;
     }
     .text-link {
         @apply text-white underline underline-offset-2 decoration-primary;
@@ -56,6 +56,7 @@
         @apply after:content-['_↗'] whitespace-nowrap;
     }
 
+    /** Cards */
     .card-container {
         @apply flex flex-col space-y-10;
     }
@@ -68,16 +69,17 @@
     .card {
         /* @apply bg-[radial-gradient(ellipse_at_center,_var(--tw-gradient-stops))] from-gray-700/60 to-gray-800/20; */
         /* @apply bg-[radial-gradient(ellipse_at_center,_var(--tw-gradient-stops))] from-gray-600/30 to-gray-800/10; */
-        /* @apply bg-[radial-gradient(ellipse_at_center,_var(--tw-gradient-stops))] from-gray-600/30 to-gray-800/10; */
         @apply bg-[radial-gradient(ellipse_at_center,_var(--tw-gradient-stops))] from-gray-500/40 to-gray-800/50;
+        /* @apply bg-[radial-gradient(ellipse_at_center,_var(--tw-gradient-stops))] from-gray-600/40 to-gray-900/90; */
     }
     .card-title {
         @apply text-2xl font-medium text-white;
     }
     .card-desc {
-        @apply text-sm text-muted tablet:text-base;
+        @apply text-sm text-muted-light tablet:text-base;
     }
 
+    /** Buttons */
     .button-container {
         @apply flex space-x-5 my-5 mx-5 tablet:mx-0 tablet:flex-row tablet:justify-end;
     }

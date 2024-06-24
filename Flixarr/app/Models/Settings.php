@@ -16,7 +16,7 @@ class Settings extends Model
 
     public static $settings = null;
 
-    static function get(string $key, mixed $default): mixed
+    static function get(string $key, mixed $default = null): mixed
     {
         if (empty(self::$settings)) {
             self::$settings = self::all();

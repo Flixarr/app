@@ -1,0 +1,5 @@
+@layer components {
+    .card {
+        @apply hidden !important;
+    }
+}

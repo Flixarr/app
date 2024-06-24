@@ -33,7 +33,7 @@
     <livewire:toasts />
 
     <!-- Main Content -->
-    <div class="h-full">
+    <div class="h-full overflow-hidden">
         {{ $slot }}
     </div>
 

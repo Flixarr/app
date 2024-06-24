@@ -1,0 +1,39 @@
+version: 2
+updates:
+  # Maintain dependencies for Composer
+  - package-ecosystem: composer
+    directory: './app'
+    schedule:
+      interval: daily
+    open-pull-requests-limit: 10
+    labels:
+      - '!Chore'
+      - 'dbot'
+      - 'dep'
+      - 'dep: composer'
+    versioning-strategy: increase
+
+  # Maintain dependencies for npm
+  - package-ecosystem: npm
+    directory: './Flixarr'
+    schedule:
+      interval: daily
+    open-pull-requests-limit: 10
+    labels:
+      - '!Chore'
+      - 'dbot'
+      - 'dep'
+      - 'dep: npm'
+    versioning-strategy: increase
+
+  # Maintain dependencies for GitHub Actions
+  - package-ecosystem: 'github-actions'
+    directory: '/'
+    schedule:
+      interval: daily
+    open-pull-requests-limit: 10
+    labels:
+      - '!Chore'
+      - 'dbot'
+      - 'dep'
+      - 'dep: github'

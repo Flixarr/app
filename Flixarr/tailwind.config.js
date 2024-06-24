@@ -22,7 +22,8 @@ module.exports = {
                     lighter: colors.slate[200],
                     dark: colors.slate[600],
                 },
-                gray: colors.slate,
+                gray: colors.gray,
+                // gray: colors.slate,
             },
             screens: {
                 phone: "480px", // => @media (min-width: 480px) { ... }

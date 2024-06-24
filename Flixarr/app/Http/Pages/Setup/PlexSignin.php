@@ -25,73 +25,76 @@ class PlexSignin extends Component
     }
 
     /**
-     * Returns the Plex Authentication URL to redirect the Plex Popup to the Plex sign in page
-     *
-     * @return string
-     */
-    function getPlexAuthUrl(): string
-    {
-        // Return the Plex Auth Url
-        $authUrl = (new PlexApi)->authUrl();
-
-        if (!$authUrl) {
-            toast()->danger('Invalid Plex Auth PIN. Please try again later. (1)', 'Plex API Error')->sticky()->push();
-        }
-
-        return $authUrl;
-    }
-
-    /**
-     * 
+     * Initialize Plex Authentication
      *
      * @return bool
      */
-    public function getPlexAuthStatus(): array|string
+    function initPlexAuth(): bool
     {
-        // Get the authentication status
-        $status = (new PlexApi)->authStatus();
+        // Generate Plex Auth PIN for this session
+        $response = (new PlexApi())->generateAuthPin();
 
-        if (is_array($status)) {
-            if (array_key_exists('error', $status)) {
-                toast()->danger($status['error'])->sticky()->push();
-                return [
-                    'error' => 'asdf'
-                ];
-            }
+        // Check for errors from response
+        if (hasError($response)) {
+            toast()->danger($response['error'], 'Plex API Error')->sticky()->push();
+            return false;
         }
 
-        return $status;
+        // Check for missing plex auth pin
+        if (session()->missing('plex_auth_pin')) {
+            toast()->danger('There was a problem with Plex\'s API. Refresh the page and try again. (Missing Authentication PIN)', 'Plex API Error')->sticky()->push();
+            return false;
+        }
 
-        // if (is_array($status) && array_key_exists('error', $status)) {
-        //     toast()->danger($status['error'])->sticky()->push();
-        //     return false;
-        // } else {
-        //     return true;
-        // }
-
-        // if ($status['status'] === 'error') {
-        //     toast()->debug($status)->sticky()->push();
-        //     return [
-        //         'error' => '',
-        //     ];
-        // }
-
-        // if ($status['status'] === 'notclaimed') {
-        //     return false;
-        // }
-
-        // if ($status['status'] === 'claimed') {
-        //     // Settings::set('plex_authToken', $status['data']['authToken']);
-        //     // $this->dispatchBrowserEvent('notify', ['type' => 'success', 'message' => 'Successfully signed in!']);
-        //     return 'claimed';
-        // }
+        return true;
     }
 
-    function plexAuthCompleted()
+    /**
+     * Returns the Plex Authentication URL to redirect the Plex Popup to the Plex sign in page
+     *
+     * @return string|bool
+     */
+    function getPlexAuthUrl(): string|bool
     {
-        // Once the authentication has been completed, we need to save the Access Token
+        // Get response from Plex API
+        $response = (new PlexApi)->authUrl();
 
-        toast()->debug('completed')->push();
-        // (new PlexApi)->updateAccessToken();
+        // If response is an array, something bad happened
+        if (hasError($response)) {
+            toast()->danger($response['error'], 'Plex API Error')->sticky()->push();
+            return false;
+        }
+
+        // Return Auth URL
+        return $response;
+    }
+
+    /**
+     * Plex Authentication
+     *
+     * This function
+     *
+     * @return bool|array
+     */
+    public function plexAuth(): bool|array
+    {
+        // Get the authentication response from the local Plex API
+        $response = (new PlexApi)->authenticate();
+
+        // First, check if the response had any issues
+        // If the response is an error, it will be in an array format
+
+        // If there was an error, dispatch notification
+        if (hasError($response)) {
+            toast()->danger($response['error'], 'Plex API Error')->sticky()->push();
+            return true;
+        }
+
+        // If response was true, authentication was successful, test authentication
+        if ($response === true) {
+            $this->dispatch('setup-next-step');
+        }
+
+        return $response;
     }
 }
