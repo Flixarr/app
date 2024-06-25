@@ -100,19 +100,20 @@ class PlexApi
      * @param string $type
      * @return \Illuminate\Http\Client\Response|array
      */
-    function plexTvCall($endpoint, $params = [], $type = 'get'): \Illuminate\Http\Client\Response|array
+    function plexTvCall($endpoint, $params = [], $type = 'get'): \Illuminate\Http\Client\Response|array|string
     {
         // Build the URL
         $url = 'https://plex.tv' . $endpoint;
 
         // Make the API call
-        $response = Http::withHeaders($this->headers)->$type($url, $params);
+        // $response = Http::withHeaders($this->headers)->$type($url, $params);
+        $response = Http::withHeaders($this->headers)->get($url, $params);
 
         // Check the response status
         if ($response->failed()) {
             return [
                 'error' => 'There was an issue communicating with Plex\'s API. (' . $response->status() . ')',
-                'data' => $response->body()
+                'data' => xml2array($response->body())
             ];
         }
 
@@ -134,7 +135,7 @@ class PlexApi
      *  "trusted" => "0"
      *  "qr" => "https://plex.tv/api/v2/pins/qr/abcdefghijklmnopqrstuvwxyz"
      *  "clientIdentifier" => "Flixarr-1.0.0"
-     *  "expiresIn" => "1800"
+     *  "expiresIn" => "1800" (SECONDS)
      *  "createdAt" => "2024-06-20 06:55:56 UTC"
      *  "expiresAt" => "2024-06-20 07:25:56 UTC"
      *  "authToken" => ""
