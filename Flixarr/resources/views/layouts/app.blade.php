@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html class="h-full" lang="{{ str_replace('_', '-', app()->getLocale()) }}" x-data="themeMode">
+<html class="h-full dark" lang="{{ str_replace('_', '-', app()->getLocale()) }}">
 
 <head>
     <meta charset="utf-8">
@@ -7,23 +7,15 @@
 
     <title>{{ $title . ' - ' . config('app.name') }}</title>
 
-    @vite(['resources/css/app.css', 'resources/js/app.js'])
+    @vite(['resources/css/app.css', 'resources/js/app.js', 'resources/js/themeMode.js'])
 
     @livewireStyles
 
     <script>
-        if (
-            localStorage.theme === "dark" ||
-            (!("theme" in localStorage) &&
-                window.matchMedia("(prefers-color-scheme: dark)").matches)
-        ) {
-            console.log('Setting theme mode to "dark"');
-            localStorage.theme = "dark"
-            document.documentElement.classList.add("dark");
+        if (localStorage.theme === 'dark' || (!('theme' in localStorage) && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
+            document.documentElement.classList.add('dark')
         } else {
-            console.log('Setting theme mode to "light"');
-            localStorage.theme = "light"
-            document.documentElement.classList.remove("dark");
+            document.documentElement.classList.remove('dark')
         }
     </script>
 </head>

@@ -7,7 +7,7 @@ use Livewire\Attributes\On;
 use Livewire\Component;
 use Usernotnull\Toast\Concerns\WireToast;
 
-class SetupIndex extends Component
+class Welcome extends Component
 {
     use WireToast;
 
@@ -21,7 +21,12 @@ class SetupIndex extends Component
     #[Layout('layouts.minimal', ['title' => 'Setup'])]
     public function render()
     {
-        return view('pages.setup.setup-index');
+        return view('pages.setup.welcome');
+    }
+
+    function initSetup(): void
+    {
+        //
     }
 
     /**
@@ -29,7 +34,7 @@ class SetupIndex extends Component
      *
      * @return void
      */
-    function load(): void
+    function loadSetupIndex(): void
     {
         // Set the correct setup step
         $this->setSetupStep();

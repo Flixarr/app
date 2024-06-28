@@ -1,6 +1,6 @@
 <?php
 
-use Illuminate\Support\Facades\Http;
+use App\Services\PlexApi;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -9,15 +9,24 @@ use Illuminate\Support\Facades\Route;
 |--------------------------------------------------------------------------|
 */
 
-Route::view('/', 'pages.index.index-page')->name('home');
+Route::name('setup.')->prefix('setup')->middleware(['setup.incomplete'])->group(function () {
+    Route::name('index')->get('/', function () {
+        return redirect()->route('setup.plex-auth');
+    });
+
+    // Step one
+    Route::name('plex-auth')->get('/plex/authentication', App\Http\Pages\Setup\PlexAuth::class);
+});
 
 /*
 |--------------------------------------------------------------------------
-| Setup Routes
+| Frontend Routes
 |--------------------------------------------------------------------------|
 */
 
-Route::get('/setup', App\Http\Pages\Setup\SetupIndex::class)->name('setup');
+Route::view('/', 'pages.index.index-page')->name('home');
+
+// Route::get('/setup', App\Http\Pages\Setup\SetupIndex::class)->name('setup');
 
 /*
 |--------------------------------------------------------------------------
@@ -26,3 +35,7 @@ Route::get('/setup', App\Http\Pages\Setup\SetupIndex::class)->name('setup');
 */
 
 Route::view('/loading', 'pages.loading')->name('loading');
+
+Route::get('/test', function () {
+    return (new PlexApi())->plexTvCall('/api/v2/ping');
+});

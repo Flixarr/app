@@ -5,13 +5,9 @@ namespace App\Services;
 use App\Models\PlexServer;
 use App\Models\Settings;
 use Illuminate\Support\Facades\Http;
-use Jenssegers\Agent\Agent;
-use Usernotnull\Toast\Concerns\WireToast;
 
 class PlexApi
 {
-    use WireToast;
-
     protected $client_id;
     protected $host;
     protected $port;
@@ -47,9 +43,6 @@ class PlexApi
             'X-Plex-Platform' => 'docker',
             'X-Plex-Provides' => 'controller',
             'X-Plex-Client-Identifier' => $this->client_id,
-
-
-
             // ⚠️ Do not delete the below data
             // 'X-Plex-Device-Name' => (new Agent)->browser() . ' (' . config('app.name') . ')',
             // 'X-Plex-Version' => 'Plex OAuth',
@@ -107,7 +100,7 @@ class PlexApi
 
         // Make the API call
         // $response = Http::withHeaders($this->headers)->$type($url, $params);
-        $response = Http::withHeaders($this->headers)->get($url, $params);
+        $response = Http::withHeaders($this->headers)->$type($url, $params);
 
         // Check the response status
         if ($response->failed()) {
@@ -209,6 +202,8 @@ class PlexApi
         // First, we need to check if we already have an auth token.
         if (settings('plex_token')) {
             // We do have a plex auth token
+            // Since we have a token, test auth
+
         }
 
         // What about a plex auth PIN?

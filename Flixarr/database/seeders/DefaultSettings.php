@@ -27,10 +27,6 @@ class DefaultSettings extends Seeder
                 'value' => false,
             ],
             [
-                'key' => 'setup_step',
-                'value' => 0,
-            ],
-            [
                 'key' => 'plex_token',
                 'value' => null,
             ],

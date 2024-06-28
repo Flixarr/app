@@ -1,4 +1,5 @@
 import "./bootstrap";
+import "./themeMode";
 
 /**
  * Livewire (& AlpineJS)
@@ -10,8 +11,6 @@ import {
 // Tall Toasts
 import ToastComponent from "../../vendor/usernotnull/tall-toasts/resources/js/tall-toasts";
 Alpine.plugin(ToastComponent);
-// Theme Mode
-import "./themeMode";
 // Start Livewire
 Livewire.start();
 

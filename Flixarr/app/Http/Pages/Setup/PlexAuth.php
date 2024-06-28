@@ -7,10 +7,11 @@ use Exception;
 use Illuminate\Contracts\View\View;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Log;
+use Livewire\Attributes\Layout;
 use Livewire\Component;
 use Usernotnull\Toast\Concerns\WireToast;
 
-class PlexSignin extends Component
+class PlexAuth extends Component
 {
     use WireToast;
 
@@ -19,9 +20,16 @@ class PlexSignin extends Component
      *
      * @return View
      */
+    #[Layout('layouts.minimal', ['title' => 'Plex Authentication'])]
     function render(): View
     {
-        return view('pages.setup.plex-signin');
+        return view('pages.setup.plex-auth');
+    }
+
+    // Comment
+    function load(): void
+    {
+        // Verify the user is not already authenticated
     }
 
     /**
@@ -81,9 +89,6 @@ class PlexSignin extends Component
         // Get the authentication response from the local Plex API
         $response = (new PlexApi)->authenticate();
 
-        // First, check if the response had any issues
-        // If the response is an error, it will be in an array format
-
         // If there was an error, dispatch notification
         if (hasError($response)) {
             toast()->danger($response['error'], 'Plex API Error')->sticky()->push();
@@ -92,6 +97,8 @@ class PlexSignin extends Component
 
         // If response was true, authentication was successful, test authentication
         if ($response === true) {
+
+
             $this->dispatch('setup-next-step');
         }
 

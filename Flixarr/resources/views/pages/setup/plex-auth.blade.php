@@ -1,8 +1,8 @@
-<div class="h-full text-center" x-data="plexSignin">
+<div class="h-full text-center" x-data="plexSignin" wire:init="load">
     <div class="card-container">
         <div class="card">
             <div>
-                <h2 class="card-title">Connect your Plex Account</h2>
+                <h2 class="card-title">Welcome to {{ config('app.name') }}!</h2>
                 <p class="card-desc">First things first, we need to connect to your Plex Account.</p>
             </div>
             <div class="">
@@ -30,7 +30,7 @@
         document.addEventListener('alpine:init', () => {
             let plexWindow
             let poll
-            let pollingInterval = 2500 // How often should we poll for authentication (in milliseconds)
+            let pollingInterval = 1000 // How often should we poll for authentication (in milliseconds)
             Alpine.data('plexSignin', () => ({
                 // Hide/Disable sign in button - Show loading icon
                 loading: false,
@@ -46,6 +46,7 @@
                         if (status) {
                             // Once Plex Authentication has started, get Plex Auth URL
                             @this.getPlexAuthUrl().then(url => {
+                                console.log('Redirecting to ' + url);
                                 if (url) {
                                     // Init polling for successful authentication
                                     this.initPlexPolling()
