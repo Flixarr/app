@@ -1,6 +1,5 @@
 <?php
 
-use App\Services\PlexApi;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -14,8 +13,8 @@ Route::name('setup.')->prefix('setup')->middleware(['setup.incomplete'])->group(
         return redirect()->route('setup.plex-auth');
     });
 
-    // Step one
     Route::name('plex-auth')->get('/plex/authentication', App\Http\Pages\Setup\PlexAuth::class);
+    Route::name('plex-servers')->get('/plex/servers', App\Http\Pages\Setup\PlexServers::class);
 });
 
 /*
@@ -37,5 +36,10 @@ Route::view('/', 'pages.index.index-page')->name('home');
 Route::view('/loading', 'pages.loading')->name('loading');
 
 Route::get('/test', function () {
-    return (new PlexApi())->plexTvCall('/api/v2/ping');
+    return (new \App\Services\PlexTv())->call('/pms/:/ip');
+    if ((new \App\Services\PlexTv())->verifyAuth()) {
+        return "yes";
+    } else {
+        return "no";
+    }
 });

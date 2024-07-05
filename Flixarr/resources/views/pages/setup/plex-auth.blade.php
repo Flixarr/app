@@ -30,7 +30,7 @@
         document.addEventListener('alpine:init', () => {
             let plexWindow
             let poll
-            let pollingInterval = 1000 // How often should we poll for authentication (in milliseconds)
+            let pollingInterval = 2000 // How often should we poll for authentication (in milliseconds)
             Alpine.data('plexSignin', () => ({
                 // Hide/Disable sign in button - Show loading icon
                 loading: false,
@@ -41,23 +41,28 @@
                     // Open a seperate window, redirect to the loading page
                     plexWindow = window.open('/loading')
                     // Start Plex Authentication
+                    console.log('Calling initPlexAuth()...')
                     @this.initPlexAuth().then(status => {
                         // If initalization was successful, then continue
                         if (status) {
+                            console.log('Plex initialized.')
                             // Once Plex Authentication has started, get Plex Auth URL
+                            console.log('Calling getPlexAuthUrl()...')
                             @this.getPlexAuthUrl().then(url => {
-                                console.log('Redirecting to ' + url);
                                 if (url) {
+                                    console.log('Setting Plex window to: ' + url)
                                     // Init polling for successful authentication
                                     this.initPlexPolling()
                                     // Redirect to the User's Auth Url
                                     plexWindow.location = url
                                 } else {
+                                    console.log('Error getting URL.')
                                     // Quit Plex Auth
                                     this.quitPlexAuth()
                                 }
                             })
                         } else {
+                            console.log('Error initializing Plex Auth.')
                             // Quit Plex Auth
                             this.quitPlexAuth()
                         }
@@ -65,32 +70,39 @@
                 },
                 // Initialize polling for successful authentication
                 initPlexPolling() {
+                    console.log('Initializing Plex polling...')
                     // This poll repetitively checks if the user has authenticated yet.
                     // The poll also checks to see if the user has closed the Plex Window prematurely
                     poll = setInterval(() => {
+                        console.log('Polling Plex...')
                         // Check if the user has authenticated yet
                         @this.plexAuth().then(response => {
-                            // A response is given on each check, the response can either be true, false, or an array
-                            // A true response means that the auth was successful
-                            // A false response means that the auth hasn't happened yet, and we need to check again
-                            // An array response means an error happened.
+                            console.log(response)
+                            // The response will either be true for successful authentication, an array for an error,
+                            // or false for an unsuccessful auth. If the auth was unsuccessful, we need to keep polling
+                            // until it is.
 
-                            // If the response is not null, stop polling
-                            if (response) {
+                            // If the plex auth window was closed prematurely, stop polling and dispatch notifcation
+                            if (plexWindow.closed) {
                                 // Quit Plex Auth
                                 this.quitPlexAuth()
                             }
+
+                            // If the response is not null/false, stop polling
+                            if (response) {
+                                // Quit Plex Auth
+                                this.quitPlexAuth()
+                                // If response was bool, auth completed
+                                if (typeof response == 'boolean') {
+                                    console.log('Calling plexAuthCompleted...')
+                                    @this.plexAuthCompleted();
+                                }
+                            }
                         })
-                        // If the plex auth window was closed prematurely, stop polling and dispatch notifcation
-                        if (plexWindow.closed) {
-                            // Quit Plex Auth
-                            this.quitPlexAuth()
-                            // Dispatch notifcation
-                            Toast.warning('The authentication window was closed prematurely. Please try again.', 'Authentication Failed')
-                        }
                     }, pollingInterval);
                 },
                 quitPlexAuth() {
+                    console.log('Plex Auth ended.')
                     // End polling
                     clearInterval(poll)
                     // Close the plex window

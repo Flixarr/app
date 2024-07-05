@@ -13,11 +13,10 @@ return new class extends Migration
     {
         Schema::create('plex_servers', function (Blueprint $table) {
             $table->id();
-            $table->string('server_id')->nullable();
-            $table->string('name')->nullable();
-            $table->string('host');
+            $table->string('name');
+            $table->string('protocol');
+            $table->string('address');
             $table->string('port');
-            $table->string('scheme');
             $table->timestamps();
         });
     }

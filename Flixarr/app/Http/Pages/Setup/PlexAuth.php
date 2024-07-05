@@ -2,13 +2,11 @@
 
 namespace App\Http\Pages\Setup;
 
-use App\Services\PlexApi;
-use Exception;
+use App\Services\PlexTv;
 use Illuminate\Contracts\View\View;
-use Illuminate\Support\Facades\Hash;
-use Illuminate\Support\Facades\Log;
 use Livewire\Attributes\Layout;
 use Livewire\Component;
+use Livewire\Features\SupportRedirects\HandlesRedirects;
 use Usernotnull\Toast\Concerns\WireToast;
 
 class PlexAuth extends Component
@@ -40,7 +38,7 @@ class PlexAuth extends Component
     function initPlexAuth(): bool
     {
         // Generate Plex Auth PIN for this session
-        $response = (new PlexApi())->generateAuthPin();
+        $response = (new PlexTv())->generateAuthPin();
 
         // Check for errors from response
         if (hasError($response)) {
@@ -65,7 +63,7 @@ class PlexAuth extends Component
     function getPlexAuthUrl(): string|bool
     {
         // Get response from Plex API
-        $response = (new PlexApi)->authUrl();
+        $response = (new PlexTv)->authUrl();
 
         // If response is an array, something bad happened
         if (hasError($response)) {
@@ -80,28 +78,44 @@ class PlexAuth extends Component
     /**
      * Plex Authentication
      *
-     * This function
+     * This function is the auth check function that the frontend will request each
+     * time it polls. It checks if the auth pin has been registered and a valid
+     * auth token was given
      *
      * @return bool|array
      */
-    public function plexAuth(): bool|array
+    public function plexAuth(): bool|array|HandlesRedirects
     {
         // Get the authentication response from the local Plex API
-        $response = (new PlexApi)->authenticate();
+        $response = (new PlexTv)->authenticate();
 
         // If there was an error, dispatch notification
         if (hasError($response)) {
+            // Dispatch notification
             toast()->danger($response['error'], 'Plex API Error')->sticky()->push();
-            return true;
+            // Return true to stop polling
+            return ['error' => $response['data']['message']];
         }
 
         // If response was true, authentication was successful, test authentication
         if ($response === true) {
-
-
-            $this->dispatch('setup-next-step');
+            // Returning false to shut up vscode, and to prevent the user from clicking the signin button again
+            return true;
         }
 
         return $response;
+    }
+
+    function plexAuthCompleted(): void
+    {
+        // Check if plex auth was actually completed
+        if ((new PlexTv)->verifyAuth()) {
+            // Dispatch notification
+            toast()->success('Plex successfully connected!')->push();
+            // Redirect to next step
+            $this->redirect(route('setup.plex-servers'), navigate: false);
+        } else {
+            toast()->danger('There was a problem authenticating your Plex account.', 'Plex Authentication Error')->push();
+        }
     }
 }

@@ -20,7 +20,7 @@
     </script>
 </head>
 
-<body class="@env('local') pb-6 @endenv">
+<body class="@env('local') pb-6 @endenv overflow-hidden">
     <!-- Toasts -->
     <livewire:toasts />
 
