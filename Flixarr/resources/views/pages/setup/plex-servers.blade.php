@@ -19,9 +19,9 @@
                 <ul class="flex flex-col space-y-5">
                     @if ($servers_loaded)
                         @if (count($servers) > 0)
-                            @foreach ($servers as $key => $server)
+                            @foreach ($servers as $server_key => $server)
                                 <li x-data="{ open: false }" x-on:click.away="open = false">
-                                    <div class="inline-flex items-center justify-between w-full p-5 space-x-5 text-left transition-colors border rounded-lg cursor-pointer hover:shadow-xl group hover:border-gray-700 border-gray-700/40 bg-gray-900/30" for="server-{{ $key }}" :class="open && '!bg-gray-800/70 border-gray-700 shadow-xl'" x-on:click="open = !open">
+                                    <div class="inline-flex items-center justify-between w-full p-5 space-x-5 text-left transition-colors border rounded-lg cursor-pointer hover:shadow-xl group hover:border-gray-700 border-gray-700/40 bg-gray-900/30" for="server-{{ $server_key }}" :class="open && '!bg-gray-800/70 border-gray-700 shadow-xl'" x-on:click="open = !open">
                                         <div>
                                             <img class="w-16 transition border rounded-lg group-hover:border-gray-700 aspect-square border-gray-700/40" src="https://preview.redd.it/new-plex-logo-v0-5x93lknmuaw81.jpg?auto=webp&s=a8edd33ea3d1f38929c7917abea05291ad49f528" alt="" :class="open && 'border-gray-700'">
                                         </div>
@@ -39,8 +39,8 @@
                                     <div class="flex justify-center px-5 text-left" x-show="open" x-cloak x-transition.in>
                                         <div class="w-full border border-t-0 rounded-b-lg bg-gray-900/40 border-gray-700/40">
                                             <ul class="divide-y divide-gray-700/40">
-                                                @foreach ($server['connections'] as $connection)
-                                                    <li class="flex flex-col p-3 space-y-1 @if ($connection['online']) hover:bg-gray-800/60 hover:cursor-pointer @else hover:cursor-not-allowed @endif">
+                                                @foreach ($server['connections'] as $connection_key => $connection)
+                                                    <li class="flex flex-col p-3 space-y-1 @if ($connection['online']) hover:bg-gray-800/60 hover:cursor-pointer @else hover:cursor-not-allowed @endif" wire:click="selectConnection({{ $server_key }}, {{ $connection_key }})">
                                                         <div class="text-[9px] text-muted">
                                                             @if (!$connection['online'])
                                                                 <span class="px-2 py-0.5 bg-red-500/40 text-white rounded-lg">Unreachable</span>
@@ -91,10 +91,25 @@
                             </div>
                             <div class="flex justify-center px-5" x-show="open" x-cloak x-transition.in>
                                 <div class="w-full p-3 text-left border border-t-0 rounded-b-lg bg-gray-900/40 border-gray-700/40">
-                                    <div>
-                                        <label class="block text-sm font-medium leading-6 text-muted" for="email">Hostname / IP Address:</label>
-                                        <div class="mt-2">
-                                            <input class="block w-full py-2 border-0 rounded-lg shadow-sm bg-gray-800/50 ring-1 ring-inset ring-gray-700/40 placeholder:text-muted/50 focus:ring-inset focus:ring-primary sm:text-sm sm:leading-6" id="server" name="server" type="text" placeholder="192.168.1.4">
+                                    <div class="grid grid-cols-3 gap-3">
+
+                                        <div class="col-span-2">
+                                            <label class="block text-sm font-medium leading-6 text-muted" for="email">Hostname / IP Address:</label>
+                                            <div class="mt-2">
+                                                <input class="block w-full py-2 border-0 rounded-lg shadow-sm bg-gray-800/50 ring-1 ring-inset ring-gray-700/40 placeholder:text-muted/50 focus:ring-inset focus:ring-primary sm:text-sm sm:leading-6" id="server" name="server" type="text" placeholder="192.168.1.4">
+                                            </div>
+                                        </div>
+                                        <div class="col-span-1">
+                                            <label class="block text-sm font-medium leading-6 text-muted" for="email">Port:</label>
+                                            <div class="mt-2">
+                                                <input class="block w-full py-2 border-0 rounded-lg shadow-sm bg-gray-800/50 ring-1 ring-inset ring-gray-700/40 placeholder:text-muted/50 focus:ring-inset focus:ring-primary sm:text-sm sm:leading-6" id="server" name="server" type="text" placeholder="32400">
+                                            </div>
+                                        </div>
+                                        <div class="col-span-full">
+                                            <div class="flex items-center">
+                                                <input class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600" id="link-checkbox" type="checkbox" value="">
+                                                <label class="text-sm font-medium text-gray-900 ms-2 dark:text-gray-300" for="link-checkbox">Use HTTPS</label>
+                                            </div>
                                         </div>
                                     </div>
 
