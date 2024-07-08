@@ -94,6 +94,9 @@
         /* @apply text-white bg-gray-800 bg-gradient-to-br from-gray-900/50 to-gray-950/80 border border-gray-700/60; */
         @apply text-white bg-gray-800 bg-gradient-to-br from-gray-800/50 to-black/50 border border-gray-700/60;
     }
+    .button-sm {
+        @apply px-3 py-1.5 text-sm;
+    }
 }
 
 @layer utilities {

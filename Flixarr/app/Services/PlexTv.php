@@ -191,7 +191,6 @@ class PlexTv
             $connections = $server['connections']['connection'];
             $servers[$key]['connections'] = (array_key_exists(0, $connections)) ? $connections : [$connections];
         }
-
         return $servers;
     }
 

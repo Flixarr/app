@@ -22,7 +22,7 @@
                             @foreach ($servers as $server_key => $server)
                                 <li x-data="{ open: false }" x-on:click.away="open = false">
                                     <div class="inline-flex items-center justify-between w-full p-5 space-x-5 text-left transition-colors border rounded-lg cursor-pointer hover:shadow-xl group hover:border-gray-700 border-gray-700/40 bg-gray-900/30" for="server-{{ $server_key }}" :class="open && '!bg-gray-800/70 border-gray-700 shadow-xl'" x-on:click="open = !open">
-                                        <div>
+                                        <div class="">
                                             <img class="w-16 transition border rounded-lg group-hover:border-gray-700 aspect-square border-gray-700/40" src="https://preview.redd.it/new-plex-logo-v0-5x93lknmuaw81.jpg?auto=webp&s=a8edd33ea3d1f38929c7917abea05291ad49f528" alt="" :class="open && 'border-gray-700'">
                                         </div>
                                         <div class="block w-full">
@@ -40,27 +40,38 @@
                                         <div class="w-full border border-t-0 rounded-b-lg bg-gray-900/40 border-gray-700/40">
                                             <ul class="divide-y divide-gray-700/40">
                                                 @foreach ($server['connections'] as $connection_key => $connection)
-                                                    <li class="flex flex-col p-3 space-y-1 @if ($connection['online']) hover:bg-gray-800/60 hover:cursor-pointer @else hover:cursor-not-allowed @endif" wire:click="selectConnection({{ $server_key }}, {{ $connection_key }})">
-                                                        <div class="text-[9px] text-muted">
-                                                            @if (!$connection['online'])
+                                                    @if ($connection['online'])
+                                                        <li class="flex flex-col p-3 space-y-1 hover:bg-gray-800/60 hover:cursor-pointer" wire:click="selectConnection({{ $server_key }}, {{ $connection_key }})">
+                                                            <div class="text-[9px] text-muted">
+                                                                @if (!$connection['online'])
+                                                                    <span class="px-2 py-0.5 bg-red-500/40 text-white rounded-lg">Unreachable</span>
+                                                                @endif
+                                                                @if ($connection['protocol'] == 'https')
+                                                                    <span class="px-2 py-0.5 bg-green-500/30 text-white rounded-lg">https</span>
+                                                                @endif
+                                                                @if ($connection['local'])
+                                                                    <span class="px-2 py-0.5 bg-gray-700/40 rounded-lg">local</span>
+                                                                @else
+                                                                    <span class="px-2 py-0.5 bg-gray-700/40 rounded-lg">remote</span>
+                                                                @endif
+                                                                @if ($connection['IPv6'])
+                                                                    <span class="px-2 py-0.5 bg-gray-700/40 rounded-lg">ipv6</span>
+                                                                @endif
+                                                            </div>
+                                                            <div class="truncate @if (!$connection['online']) !text-muted-dark @endif">
+                                                                {{ $connection['address'] }} <span class="text-xs text-muted">: {{ $connection['port'] }}</span>
+                                                            </div>
+                                                        </li>
+                                                    @else
+                                                        <li class="flex flex-col p-3 space-y-1 hover:bg-gray-800/60 hover:cursor-not-allowed">
+                                                            <div class="text-[9px] text-muted">
                                                                 <span class="px-2 py-0.5 bg-red-500/40 text-white rounded-lg">Unreachable</span>
-                                                            @endif
-                                                            @if ($connection['protocol'] == 'https')
-                                                                <span class="px-2 py-0.5 bg-green-500/30 text-white rounded-lg">https</span>
-                                                            @endif
-                                                            @if ($connection['local'])
-                                                                <span class="px-2 py-0.5 bg-gray-700/40 rounded-lg">local</span>
-                                                            @else
-                                                                <span class="px-2 py-0.5 bg-gray-700/40 rounded-lg">remote</span>
-                                                            @endif
-                                                            @if ($connection['IPv6'])
-                                                                <span class="px-2 py-0.5 bg-gray-700/40 rounded-lg">ipv6</span>
-                                                            @endif
-                                                        </div>
-                                                        <div class="truncate @if (!$connection['online']) !text-muted-dark @endif">
-                                                            {{ $connection['address'] }} <span class="text-xs text-muted @if (!$connection['online']) !text-muted-dark @endif">: {{ $connection['port'] }}</span>
-                                                        </div>
-                                                    </li>
+                                                            </div>
+                                                            <div class="truncate @if (!$connection['online']) !text-muted-dark @endif">
+                                                                {{ $connection['address'] }} <span class="text-xs text-muted-darker">: {{ $connection['port'] }}</span>
+                                                            </div>
+                                                        </li>
+                                                    @endif
                                                 @endforeach
                                             </ul>
                                         </div>
@@ -70,14 +81,25 @@
                         @else
                             <li>
                                 <div class="px-5 py-3 text-sm text-left border rounded-lg bg-gray-900/30 border-gray-700/40 text-muted opacity-60">
-                                    no servers</div>
+                                    no servers
+                                </div>
                             </li>
                         @endif
                         <li class="text-muted">
                             <hr class="w-1/2 h-0.5 mx-auto border-0 bg-gray-700/50">
                         </li>
                         <li x-data="{ open: false }">
-                            <div class="inline-flex items-center justify-between w-full p-5 space-x-5 text-left transition-colors border rounded-lg cursor-pointer hover:shadow-xl group hover:border-gray-700 border-gray-700/40 bg-gray-900/30" :class="open && '!bg-gray-800/70 border-gray-700'" x-on:click="open = !open">
+                            <div class="inline-flex items-center justify-between w-full p-5 space-x-5 text-left transition-colors border rounded-lg cursor-pointer hover:shadow-xl group hover:border-gray-700 border-gray-700/40 bg-gray-900/30" :class="open && '!bg-gray-800/70 border-gray-700 shadow-xl'" x-on:click="open = !open">
+                                <div>
+                                    <div class="flex items-center justify-center w-[40px] h-[40px] transition bg-gray-900/70 border rounded-lg border-gray-700/40 group-hover:border-gray-700 group-hover:bg-gray-700/30" :class="open && '!bg-gray-700 !border-gray-600'">
+                                        <svg class="transition text-muted-dark group-hover:text-white" :class="open && 'text-white'" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                            <path stroke="none" d="M0 0h24v24H0z" fill="none" />
+                                            <path d="M9 15l6 -6" />
+                                            <path d="M11 6l.463 -.536a5 5 0 0 1 7.071 7.072l-.534 .464" />
+                                            <path d="M13 18l-.397 .534a5.068 5.068 0 0 1 -7.127 0a4.972 4.972 0 0 1 0 -7.071l.524 -.463" />
+                                        </svg>
+                                    </div>
+                                </div>
                                 <div class="block w-full">
                                     <div class="w-full text-lg">Custom Connection</div>
                                     <div class="w-full text-xs transition-colors text-muted group-hover:text-muted-light" :class="open && 'text-muted-light'">Enter the connection details manually</div>
@@ -91,7 +113,7 @@
                             </div>
                             <div class="flex justify-center px-5" x-show="open" x-cloak x-transition.in>
                                 <div class="w-full p-3 text-left border border-t-0 rounded-b-lg bg-gray-900/40 border-gray-700/40">
-                                    <div class="grid grid-cols-3 gap-3">
+                                    <form class="grid grid-cols-3 gap-6">
 
                                         <div class="col-span-2">
                                             <label class="block text-sm font-medium leading-6 text-muted" for="email">Hostname / IP Address:</label>
@@ -106,13 +128,24 @@
                                             </div>
                                         </div>
                                         <div class="col-span-full">
-                                            <div class="flex items-center">
-                                                <input class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600" id="link-checkbox" type="checkbox" value="">
-                                                <label class="text-sm font-medium text-gray-900 ms-2 dark:text-gray-300" for="link-checkbox">Use HTTPS</label>
+                                            <div class="flex items-center justify-between">
+                                                <div class="flex items-center">
+                                                    <label class="inline-flex items-center cursor-pointer group">
+                                                        <input class="sr-only peer" type="checkbox" value="">
+                                                        <div class="relative group-focus-within:after:bg-white group-hover:after:bg-white w-11 h-6 bg-gray-800/50 peer-focus:outline-none peer-focus:ring-primary rounded-full ring-1 ring-inset ring-gray-700/40 peer peer-checked:after:translate-x-full rtl:peer-checked:after:-translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:start-[2px] after:bg-gray-400 after:border-gray-500 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:after:bg-white peer-checked:bg-primary"></div>
+                                                        <span class="block text-sm font-medium leading-6 text-muted ms-3">Use SSL</span>
+                                                    </label>
+                                                </div>
+                                                <div x-data="{ open: true }">
+                                                    <div x-on:click="open = !open">
+
+                                                        <button class="button-primary button button-sm" x-show="open">Continue</button>
+                                                    </div>
+                                                </div>
+
                                             </div>
                                         </div>
-                                    </div>
-
+                                    </form>
                                 </div>
                             </div>
                         </li>
