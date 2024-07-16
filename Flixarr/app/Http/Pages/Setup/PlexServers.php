@@ -2,20 +2,43 @@
 
 namespace App\Http\Pages\Setup;
 
+use App\Rules\ValidHost;
 use App\Services\Plex;
 use App\Services\PlexTv;
+use App\Traits\WithLivewireLogger;
+use App\Traits\WithValidationToasts;
+use Illuminate\Support\Str;
 use Livewire\Attributes\Layout;
 use Livewire\Component;
 use Usernotnull\Toast\Concerns\WireToast;
 
 class PlexServers extends Component
 {
-    use WireToast;
+    use WireToast, WithValidationToasts, WithLivewireLogger;
 
-    public $servers = [];
-    public $servers_loaded = false;
+    public bool $servers_loaded = false;
+    public array $servers = [];
+    public array $selected_connection = [];
+    public array $custom_connection = [];
 
-    #[Layout('layouts.minimal', ['title' => 'Plex Authentication'])]
+    public function rules()
+    {
+        return [
+            'custom_connection.host' => ['required', new ValidHost],
+            'custom_connection.port' => ['required', 'integer', 'between:1,65535'],
+        ];
+    }
+
+    public function validationAttributes()
+    {
+        return [
+            'custom_connection.host' => 'Hostname / IP Address',
+            'custom_connection.port' => 'Port',
+        ];
+    }
+
+
+    #[Layout('layouts.minimal', ['title' => 'Plex Server'])]
     public function render()
     {
         return view('pages.setup.plex-servers');
@@ -23,6 +46,32 @@ class PlexServers extends Component
 
     function load(): void
     {
+        // Prevent user from visiting this page without a plex auth token
+        if (!settings('plex_token')) {
+            $this->redirect(route('setup.plex-auth'), false);
+            return;
+        }
+
+        // Build custom connection array
+        $this->custom_connection = [
+            'host' => '',
+            'port' => '32400',
+            'ssl' => false,
+        ];
+
+        // Load plex servers
+        $this->loadPlexServers();
+
+        // Test connection(s)
+        // $this->testPlexServerConnections();
+
+        // Update state
+        $this->servers_loaded = true;
+    }
+
+    function loadPlexServers(): void
+    {
+        // Dev data
         $response = [
             [
                 'name' => 'Plex Server',
@@ -62,7 +111,7 @@ class PlexServers extends Component
                     ],
                     [
                         "protocol" => "http",
-                        "address" => "1050:0000:0000:0000:0005:0600:300c:326b",
+                        "address" => "1050:0000:0000:0000:0005:0600:0000:0000:0005:0600:0000:0000:0005:0600:300c:326b",
                         "port" => "32400",
                         "uri" => "https://162-239-195-175.8e41b6cde605491abfc1d33cf2d2d2f6.plex.direct:32400",
                         "local" => "0",
@@ -71,8 +120,7 @@ class PlexServers extends Component
                         'online' => "0",
                     ]
                 ]
-            ],
-            [
+            ], [
                 'name' => 'Test Server',
                 'platform' => 'Linux',
                 'device' => 'DS218',
@@ -93,7 +141,7 @@ class PlexServers extends Component
         ];
 
         // Load plex servers
-        // $response = (new PlexTv)->getServers();
+        $response = (new PlexTv)->getServers();
 
         // Error catching
         if (hasError($response)) {
@@ -101,29 +149,84 @@ class PlexServers extends Component
             return;
         }
 
+        // Update property
         $this->servers = $response;
 
-        // Test each server connection
-        // $this->testConnections();
-
-        $this->servers_loaded = true;
-    }
-
-    function testConnections(): void
-    {
+        // Test connection(s)
         foreach ($this->servers as $server_key => $server) {
             foreach ($server['connections'] as $connection_key => $connection) {
-                $status = (new Plex($connection))->call('/myplex/account');
-                $this->servers[$server_key]['connections'][$connection_key]['online'] = (!hasError($status) && array_key_exists('username', $status)) ? "1" : "0";
-                // $this->servers[$server_key]['connections'][$connection_key]['status'] = $status;
+                $status = (new Plex($connection))->testConnection();
+                $this->servers[$server_key]['connections'][$connection_key]['online'] = hasError($status) ? false : true;
             }
         }
-
-        // dd($this->servers);
     }
 
-    function selectConnection($server_key, $connection_key): void
+    function selectPlexConnection(int $server_key, int $connection_key): void
     {
-        dd($this->servers[$server_key]['connections'][$connection_key]);
+        $connection = $this->servers[$server_key]['connections'][$connection_key];
+
+        $this->selected_connection = [
+            'protocol' => $connection['protocol'],
+            'address' => $connection['address'],
+            'port' => $connection['port'],
+        ];
+
+        if ($this->testConnection()) {
+            // Disable page
+            $this->servers_loaded = false;
+            // Save Server
+            $this->saveServer();
+            // Redirect
+            $this->redirect(route('setup.services'));
+        }
+    }
+
+    function submitCustomConnection(): void
+    {
+        // Validate
+        $this->validate();
+
+        // Build connection array
+        $this->selected_connection = [
+            "protocol" => (isset($this->custom_connection['ssl']) && $this->custom_connection['ssl']) ? 'https' : 'http',
+            "address" => $this->custom_connection['host'],
+            "port" => $this->custom_connection['port'],
+        ];
+
+        if ($this->testConnection()) {
+            // Disable page
+            $this->servers_loaded = false;
+            // Save server
+            $this->saveServer();
+            // Redirect to next step
+            $this->redirect(route('setup.services'));
+        }
+    }
+
+    function testConnection(): bool
+    {
+        // Test connection
+        $status = (new Plex($this->selected_connection))->testConnection();
+
+        // Check for error
+        if (hasError($status)) {
+            toast()->danger($status['error'])->push();
+            return false;
+        }
+        return true;
+    }
+
+    function saveServer(): bool
+    {
+        $server = (new Plex($this->selected_connection))->saveServerFromConnection();
+        return hasError($server) ? false : true;
+    }
+
+    function resetPlexAuth(): void
+    {
+        // Clear plex token if we have one
+        settings(['plex_token' => null]);
+        $this->redirect(route('setup.plex-auth'), navigate: false);
+        return;
     }
 }

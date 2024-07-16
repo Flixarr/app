@@ -1,0 +1,26 @@
+@layer utilities {
+    .transition {
+        @apply duration-200;
+    }
+
+    /** Borders */
+    .border {
+        @apply border-gray-700/40;
+    }
+    .border-hover {
+        @apply border-gray-700/60;
+    }
+    .divide {
+        @apply divide-gray-700/40;
+    }
+
+    /** Rounded */
+    .rounded {
+        @apply !rounded-lg;
+    }
+
+    /** Shadow */
+    .shadow {
+        @apply !shadow-xl;
+    }
+}

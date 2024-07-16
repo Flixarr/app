@@ -6,16 +6,14 @@ use Closure;
 use Illuminate\Contracts\View\View;
 use Illuminate\View\Component;
 
-class Loading extends Component
+class Panel extends Component
 {
-    public $size;
-
     /**
      * Create a new component instance.
      */
-    public function __construct($size = null)
+    public function __construct()
     {
-        $this->size = $size ?? "w-12 h-12";
+        //
     }
 
     /**
@@ -23,6 +21,6 @@ class Loading extends Component
      */
     public function render(): View|Closure|string
     {
-        return view('components.loading');
+        return view('components.panel');
     }
 }

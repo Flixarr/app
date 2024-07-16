@@ -1,21 +1,21 @@
 <?php
 
-namespace App\View\Components;
+namespace App\View\Components\Forms;
 
 use Closure;
 use Illuminate\Contracts\View\View;
 use Illuminate\View\Component;
 
-class Loading extends Component
+class Toggle extends Component
 {
-    public $size;
+    public string $label;
 
     /**
      * Create a new component instance.
      */
-    public function __construct($size = null)
+    public function __construct($label)
     {
-        $this->size = $size ?? "w-12 h-12";
+        $this->label = $label;
     }
 
     /**
@@ -23,6 +23,6 @@ class Loading extends Component
      */
     public function render(): View|Closure|string
     {
-        return view('components.loading');
+        return view('components.forms.toggle');
     }
 }

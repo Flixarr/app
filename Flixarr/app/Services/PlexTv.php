@@ -4,9 +4,12 @@ namespace App\Services;
 
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Support\Facades\Http;
+use Usernotnull\Toast\Concerns\WireToast;
 
 class PlexTv
 {
+    use WireToast;
+
     protected $client_id;
     protected $headers;
 
@@ -40,8 +43,18 @@ class PlexTv
     {
         // Build the URL
         $url = 'https://plex.tv' . $endpoint;
+
         // Make the API call
-        $response = Http::withHeaders($this->headers)->$type($url, $params);
+        try {
+            //code...
+            $response = Http::withHeaders($this->headers)->$type($url, $params);
+        } catch (\Throwable $error) {
+            return [
+                'error' => 'There was an issue communicating with Plex.tv',
+                'data' => $error->getMessage(),
+            ];
+        }
+
         // Check the response status
         if ($response->failed()) {
             return [
@@ -49,13 +62,12 @@ class PlexTv
                 'data' => xml2array($response->body())
             ];
         }
-        // If response is expected to be XML, convert it
-        if ($isXml) {
-            return xml2array($response->body());
-        }
 
-        // Return response if xml isn't expected
-        return $response->body();
+        // Convert response from XML to array if reqested
+        $response = $isXml ? xml2array($response->body()) : $response->body;
+
+        // Return response
+        return $response;
     }
 
     /**
@@ -68,6 +80,7 @@ class PlexTv
     {
         // Return the Auth PIN array
         $response = $this->call('/api/v2/pins', ['strong' => 'true'], 'post');
+
         // If there wasn't any errors, store the auth pin in the session
         if (!hasError($response)) {
             session(['plex_auth_pin' => $response]);
@@ -191,6 +204,7 @@ class PlexTv
             $connections = $server['connections']['connection'];
             $servers[$key]['connections'] = (array_key_exists(0, $connections)) ? $connections : [$connections];
         }
+
         return $servers;
     }
 

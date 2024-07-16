@@ -1,16 +1,20 @@
 <?php
 
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Log;
+use Usernotnull\Toast\Concerns\WireToast;
 
 /**
  * Settings Helper
  * A helper that returns Settings::get('key', 'default');
+ * To get a settings item, $data must be string.
+ * To set a settings item, $data must be array.
  *
- * @param  array|string|null $data
- * @param  mixed $default
+ * @param  array|string $data
+ * @param  string $default
  * @return mixed
  */
-function settings($data, $default = null): mixed
+function settings(array|string $data, string $default = null): mixed
 {
     if (is_array($data)) {
         foreach ($data as $key => $value) {
@@ -30,9 +34,34 @@ function settings($data, $default = null): mixed
  */
 function hasError($response): bool
 {
-    return is_array($response) && array_key_exists('error', $response) ? true : false;
+    if (is_array($response) && array_key_exists('error', $response)) {
+        // Has error
+        return true;
+    } else {
+        // Doesn't have error
+        return false;
+    }
 
     // return array_key_exists('error', $response);
+}
+
+
+function logError(string $title, string $message = null, object $throwable = null): void
+{
+    $context = (!$throwable) ? [] : [
+        'message' => $throwable->getMessage(),
+        'file' => debug_backtrace()[0]['file'],
+        'line' => debug_backtrace()[0]['line'],
+        'code' => $throwable->getCode(),
+        'previous' => $throwable->getPrevious(),
+    ];
+
+    Log::error($title . ': ' . $message, $context);
+}
+
+function logAction(string $where, string $message, array $data = []): void
+{
+    Log::info($where . ' - ' . $message, $data);
 }
 
 /**

@@ -1,0 +1,17 @@
+@layer utilities {
+    #nprogress .bar {
+        @apply z-[2000] !h-1 !rounded-full !bg-primary;
+    }
+    #nprogress .bar {
+        box-shadow: 0 0 10px #3b82f6, 0 0 20px #3b82f6 !important;
+    }
+    #nprogress .peg {
+        @apply !hidden !w-full !rotate-0 rounded-full !bg-primary;
+    }
+    #nprogress .spinner {
+        @apply z-[2000];
+    }
+    #nprogress .spinner .spinner-icon {
+        @apply !h-6 !w-6 !border-4 !border-l-primary border-t-primary;
+    }
+}

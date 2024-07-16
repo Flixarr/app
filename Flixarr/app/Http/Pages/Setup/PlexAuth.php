@@ -3,6 +3,7 @@
 namespace App\Http\Pages\Setup;
 
 use App\Services\PlexTv;
+use App\Traits\WithLivewireLogger;
 use Illuminate\Contracts\View\View;
 use Livewire\Attributes\Layout;
 use Livewire\Component;
@@ -11,7 +12,7 @@ use Usernotnull\Toast\Concerns\WireToast;
 
 class PlexAuth extends Component
 {
-    use WireToast;
+    use WireToast, WithLivewireLogger;
 
     /**
      * Render the Plex Signin button
@@ -28,6 +29,10 @@ class PlexAuth extends Component
     function load(): void
     {
         // Verify the user is not already authenticated
+        if (settings('plex_token')) {
+            $this->redirect(route('setup.plex-servers'), false);
+            return;
+        }
     }
 
     /**
