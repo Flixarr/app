@@ -4,14 +4,16 @@
     }
 
     /** Borders */
-    .border {
-        @apply border-gray-700/40;
+    .border,
+    [class*="border"],
+    .ring,
+    [class*="ring-"],
+    .divide,
+    [class*="divide-"] {
+        @apply border-gray-700/40 ring-gray-700/40 divide-gray-700/40;
     }
     .border-hover {
         @apply border-gray-700/60;
-    }
-    .divide {
-        @apply divide-gray-700/40;
     }
 
     /** Rounded */

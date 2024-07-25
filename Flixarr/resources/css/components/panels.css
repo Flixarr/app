@@ -3,10 +3,19 @@
         @apply w-full rounded-lg border card-padding bg-gray-900/40 transition;
         /* @apply inline-flex items-center justify-between w-full p-5 space-x-5 text-left transition-colors border rounded-lg cursor-pointer hover:shadow-xl group hover:border-gray-700 border-gray-700/40 bg-gray-900/30; */
     }
+    .panel-flex {
+        @apply flex flex-col space-y-5;
+    }
     .panel-hover {
         @apply !border-hover !shadow !cursor-pointer;
     }
     .panel-active {
         @apply !bg-gray-800/40 !border-hover !shadow;
+    }
+    .panel-title {
+        @apply text-lg font-medium text-white;
+    }
+    .panel-desc {
+        @apply text-sm font-medium leading-6 text-muted;
     }
 }

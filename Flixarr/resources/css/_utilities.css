@@ -5,4 +5,7 @@
     .flex-center {
         @apply flex items-center justify-center;
     }
+    hr {
+        @apply w-1/2 h-0.5 mx-auto border-0 bg-gray-700/50;
+    }
 }

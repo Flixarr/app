@@ -1,34 +1,27 @@
-<div class="" x-data="{ step: @entangle('step') }" wire:init="initSetup">
-
-    {{-- Loading --}}
-    {{-- <div class="w-full mt-10" wire:loading>
-        <x-loading />
-    </div> --}}
-
-    {{-- @env('local')
-    <div class="flex items-center justify-between mb-5">
-        <button wire:click="prevStep">Prev Step</button>
-        <button wire:click="nextStep">Next Step</button>
+<x-layouts.minimal title="test">
+    <div>
+        <div class="card-container">
+            <div class="card card-padding">
+                {{-- Card header --}}
+                <div>
+                    <h2 class="card-title">Welcome to {{ config('app.name') }}!</h2>
+                    <p class="card-desc">First things first, we need to connect to your Plex Account.</p>
+                </div>
+                {{-- Card loading --}}
+                <div x-show="loading" x-cloak>
+                    <x-loading />
+                </div>
+                {{-- Card content --}}
+                <div class="text-center" x-show="!loading">
+                    <button class="text-base button button-primary" x-on:click="initPlexAuth">
+                        Sign in with Plex
+                    </button>
+                </div>
+            </div>
+        </div>
+        <div class="text-center card-padding">
+            <p class="text-sub">Connecting your Plex account allows Flixarr to communicate with your Plex Media Server. Your login details are never visible to Flixarr. More information can be found <a class="text-link" href="#" target="_blank">here</a>.</p>
+        </div>
     </div>
-    @endenv --}}
 
-    {{-- Plex Signin --}}
-    {{-- @if ($step == 1) --}}
-    {{-- <section x-show="step == 1" x-cloak>
-        <livewire:pages.setup.plex-signin />
-    </section> --}}
-    {{-- @endif --}}
-
-    {{-- Plex Servers --}}
-    {{-- @if ($step == 2) --}}
-    {{-- <section x-show="step == 2" x-cloak>
-        <livewire:pages.setup.plex-servers lazy />
-    </section> --}}
-    {{-- @endif --}}
-
-    {{-- Other Services --}}
-    {{-- <section x-show="step == 3" x-cloak>
-        <livewire:pages.setup.services lazy />
-    </section> --}}
-
-</div>
+</x-layouts.minimal>

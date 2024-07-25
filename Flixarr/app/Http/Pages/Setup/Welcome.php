@@ -2,7 +2,7 @@
 
 namespace App\Http\Pages\Setup;
 
-use Livewire\Attributes\Layout;
+use Livewire\Attributes\Title;
 use Livewire\Attributes\On;
 use Livewire\Component;
 use Usernotnull\Toast\Concerns\WireToast;
@@ -18,10 +18,10 @@ class Welcome extends Component
      */
     public $step;
 
-    #[Layout('layouts.minimal', ['title' => 'Setup'])]
+    // #[Layout('layouts.app', ['title' => 'Setup'])]
     public function render()
     {
-        return view('pages.setup.welcome');
+        return view('pages.setup.welcome')->title('asdf');
     }
 
     function initSetup(): void

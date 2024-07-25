@@ -6,6 +6,9 @@
     .card-padding {
         @apply p-5;
     }
+    .card-flex {
+        @apply flex-col space-y-5 flex;
+    }
     .card {
         @apply flex flex-col space-y-10 text-muted-lighter shadow tablet:rounded border border-x-0 tablet:border-x;
     }

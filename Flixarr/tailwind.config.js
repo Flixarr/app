@@ -24,6 +24,7 @@ module.exports = {
                 },
                 gray: colors.gray,
                 // gray: colors.slate,
+                "border-color": "border-gray-700/40",
             },
             screens: {
                 phone: "480px", // => @media (min-width: 480px) { ... }

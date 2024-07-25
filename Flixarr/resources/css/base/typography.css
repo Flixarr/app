@@ -38,7 +38,7 @@
     }
 
     .text-logo {
-        @apply px-2 text-6xl text-white underline font-logo drop-shadow-xl underline-offset-2 decoration-primary;
+        @apply px-2 text-white underline font-logo drop-shadow-xl underline-offset-2 decoration-primary;
     }
     .text-sub {
         @apply text-xs text-muted-dark;

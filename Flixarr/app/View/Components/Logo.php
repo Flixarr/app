@@ -8,12 +8,14 @@ use Illuminate\View\Component;
 
 class Logo extends Component
 {
+    public $size;
+
     /**
      * Create a new component instance.
      */
-    public function __construct()
+    public function __construct($size = null)
     {
-        // 
+        $this->size = $size ?? 'text-4xl';
     }
 
     /**

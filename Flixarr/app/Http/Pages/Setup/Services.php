@@ -7,14 +7,16 @@ use Livewire\Component;
 
 class Services extends Component
 {
+    public int $step;
+
     #[Layout('layouts.minimal', ['title' => 'Services'])]
     public function render()
     {
         return view('pages.setup.services');
     }
 
-    public function load(): void
+    function load(): void
     {
-        //
+        // $this->step = 1;
     }
 }

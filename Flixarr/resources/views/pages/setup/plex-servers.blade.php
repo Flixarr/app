@@ -13,7 +13,7 @@
 
             <div wire:loading.remove wire:target="load">
                 @if ($servers_loaded)
-                    <ul class="flex flex-col space-y-5">
+                    <ul class="card-flex">
                         @if (count($servers) > 0)
                             @foreach ($servers as $server_key => $server)
                                 <div x-data="{ open: false }" x-on:click.away="open = false">
@@ -34,7 +34,7 @@
                                     </div>
                                     <div class="px-5 flex-center" x-show="open" x-cloak x-transition.in>
                                         <div class="p-0 border-t-0 rounded-t-none panel">
-                                            <ul class="divide-y divide" wire:loading.class="opacity-70">
+                                            <ul class="divide-y" wire:loading.class="opacity-70">
                                                 @foreach ($server['connections'] as $connection_key => $connection)
                                                     <li class="p-3 space-y-1 @if ($connection['online']) hover:panel-active hover:cursor-pointer @else hover:cursor-not-allowed @endif" @if ($connection['online']) wire:click="selectPlexConnection({{ $server_key }}, {{ $connection_key }})" @endif wire:loading.class="pointer-events-none hover:!cursor-wait">
                                                         <div class="flex items-center justify-between">
@@ -71,7 +71,7 @@
                                 </div>
                             @endforeach
                             <li class="text-muted">
-                                <hr class="w-1/2 h-0.5 mx-auto border-0 bg-gray-700/50">
+                                <hr>
                             </li>
                             <li x-data="{ open: false }">
                                 <div class="flex space-x-5 panel hover:panel-hover group" :class="open && 'panel-active'" x-on:click="open = !open">
