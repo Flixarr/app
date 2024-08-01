@@ -8,14 +8,11 @@ use Illuminate\Support\Facades\Route;
 |--------------------------------------------------------------------------|
 */
 
-Route::name('setup.')->prefix('setup')->middleware(['setup.incomplete'])->group(function () {
-    Route::name('index')->get('/', function () {
-        return redirect()->route('setup.welcome');
-    });
-    Route::name('welcome')->get('/welcome', App\Http\Pages\Setup\Welcome::class);
-    Route::name('plex-auth')->get('/plex/authentication', App\Http\Pages\Setup\PlexAuth::class);
-    Route::name('plex-servers')->get('/plex/servers', App\Http\Pages\Setup\PlexServers::class);
-    Route::name('services')->get('/services', App\Http\Pages\Setup\Services::class);
+Route::name('setup')->prefix('setup')->middleware(['setup.incomplete'])->group(function () {
+    Route::name('.plex-auth')->get('/plex/authentication', App\Http\Pages\Setup\PlexAuth::class);
+    Route::name('.plex-servers')->get('/plex/servers', App\Http\Pages\Setup\PlexServers::class);
+    Route::name('.services')->get('/services', App\Http\Pages\Setup\Services::class);
+    Route::redirect('/', route('setup.plex-auth'));
 });
 
 /*

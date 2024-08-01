@@ -8,15 +8,13 @@ use Illuminate\View\Component;
 
 class Minimal extends Component
 {
-    public string $title;
     public bool $hide_logo;
 
     /**
      * Create a new component instance.
      */
-    public function __construct(string $title, bool $hide_logo = false)
+    public function __construct(bool $hide_logo = false)
     {
-        $this->title =  $title;
         $this->hide_logo = $hide_logo;
     }
 

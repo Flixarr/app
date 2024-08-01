@@ -6,5 +6,6 @@
 
 // interface View extends Renderable
 // {
-//     // public function layout();
+//     /** @return static */
+//     public function layout();
 // }

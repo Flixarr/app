@@ -37,8 +37,7 @@ class PlexServers extends Component
         ];
     }
 
-
-    #[Layout('layouts.minimal', ['title' => 'Plex Server'])]
+    #[Layout('layouts.app', ['title' => 'Plex Servers'])]
     public function render()
     {
         return view('pages.setup.plex-servers');

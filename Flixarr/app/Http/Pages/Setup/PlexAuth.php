@@ -19,7 +19,7 @@ class PlexAuth extends Component
      *
      * @return View
      */
-    #[Layout('layouts.minimal', ['title' => 'Plex Authentication'])]
+    #[Layout('layouts.app', ['title' => 'Plex Authentication'])]
     function render(): View
     {
         return view('pages.setup.plex-auth');

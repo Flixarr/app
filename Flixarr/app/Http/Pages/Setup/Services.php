@@ -8,8 +8,10 @@ use Livewire\Component;
 class Services extends Component
 {
     public int $step;
+    public $radarr = [];
+    public $sonarr = [];
 
-    #[Layout('layouts.minimal', ['title' => 'Services'])]
+    #[Layout('layouts.app', ['title' => 'Services'])]
     public function render()
     {
         return view('pages.setup.services');
