@@ -28,5 +28,8 @@ jobs:
       - name: Install Dependencies
         run: composer install -q --no-interaction --no-progress --prefer-dist --optimize-autoloader
 
+      - name: Generate application key..
+        run: php artisan key:generate
+
       - name: Tests
         run: php artisan test
