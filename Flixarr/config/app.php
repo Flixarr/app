@@ -23,7 +23,7 @@ return [
     | Application Build
     |--------------------------------------------------------------------------
     |
-    | This value is the build or version of your application. 
+    | This value is the build or version of your application.
     |
     */
 
@@ -179,6 +179,7 @@ return [
         // App\Providers\BroadcastServiceProvider::class,
         App\Providers\EventServiceProvider::class,
         App\Providers\RouteServiceProvider::class,
+        App\Providers\TelescopeServiceProvider::class,
 
         // Jenssegers/Agent
         // https://github.com/jenssegers/agent

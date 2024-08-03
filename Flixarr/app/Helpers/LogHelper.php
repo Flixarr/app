@@ -2,7 +2,7 @@
 
 use Illuminate\Support\Facades\Log;
 
-function logError(string $title, string $message = null, object $throwable = null): void
+function logError(string $title, ?string $message = null, ?object $throwable = null): void
 {
     $context = (!$throwable) ? [] : [
         'message' => $throwable->getMessage(),
@@ -12,10 +12,10 @@ function logError(string $title, string $message = null, object $throwable = nul
         'previous' => $throwable->getPrevious(),
     ];
 
-    Log::error($title . ': ' . $message, $context);
+    Log::error($title.': '.$message, $context);
 }
 
 function logAction(string $where, string $message, array $data = []): void
 {
-    Log::info($where . ' - ' . $message, $data);
+    Log::info($where.' - '.$message, $data);
 }

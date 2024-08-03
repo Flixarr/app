@@ -19,8 +19,12 @@
                 </div>
             </div>
         </div>
+
         <div class="text-center card-padding">
-            <p class="text-sub">Connecting your Plex account allows Flixarr to communicate with your Plex Media Server. Your login details are never visible to Flixarr. More information can be found <a class="text-link" href="#" target="_blank">here</a>.</p>
+            <p class="text-sub">
+                Connecting your Plex account allows Flixarr to communicate with your Plex Media Server.
+                Your login details are never visible to Flixarr. More information can be found <a class="text-link"href="#" target="_blank">here</a>.
+            </p>
         </div>
     </div>
 </x-layouts.minimal>

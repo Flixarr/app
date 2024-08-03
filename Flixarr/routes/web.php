@@ -34,10 +34,10 @@ Route::view('/', 'pages.index.index-page')->name('home');
 Route::view('/loading', 'pages.loading')->name('loading');
 
 Route::get('/test', function () {
-    return (new \App\Services\PlexTv())->call('/pms/:/ip');
-    if ((new \App\Services\PlexTv())->verifyAuth()) {
-        return "yes";
+    return (new \App\Services\PlexTv)->call('/pms/:/ip');
+    if ((new \App\Services\PlexTv)->verifyAuth()) {
+        return 'yes';
     } else {
-        return "no";
+        return 'no';
     }
 });

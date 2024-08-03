@@ -15,7 +15,7 @@ class Loading extends Component
      */
     public function __construct($size = null)
     {
-        $this->size = $size ?? "w-12 h-12";
+        $this->size = $size ?? 'w-12 h-12';
     }
 
     /**

@@ -9,8 +9,9 @@
  *
  * P.S. The attempt(), attemptIf(), & attemptUnless().
  *
- * @throws Throwable
  * @return null;
+ *
+ * @throws Throwable
  */
 function attempt(callable $callback, string $action, bool $trace = false): mixed
 {
@@ -37,7 +38,6 @@ function attempt(callable $callback, string $action, bool $trace = false): mixed
         // Log::info('--------------------END--------------------');
         // Log::info('');
 
-
         // // Dispatch a notification for the user to see
         // toast()->danger('Please refresh the page and try again.', 'Server Error')->sticky()->push();
         // // Dispatch a toast for the developer to see, but only if the environment is local
@@ -49,10 +49,10 @@ function attempt(callable $callback, string $action, bool $trace = false): mixed
     }
 }
 
-
 function xml2array($xml): array
 {
     normalizeSimpleXML(simplexml_load_string($xml), $result);
+
     return $result;
 }
 

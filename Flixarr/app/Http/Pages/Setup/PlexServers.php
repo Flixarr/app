@@ -7,18 +7,21 @@ use App\Services\Plex;
 use App\Services\PlexTv;
 use App\Traits\WithLivewireLogger;
 use App\Traits\WithValidationToasts;
-use Illuminate\Support\Str;
+use Illuminate\Support\Facades\Log;
 use Livewire\Attributes\Layout;
 use Livewire\Component;
 use Usernotnull\Toast\Concerns\WireToast;
 
 class PlexServers extends Component
 {
-    use WireToast, WithValidationToasts, WithLivewireLogger;
+    use WireToast, WithLivewireLogger, WithValidationToasts;
 
     public bool $servers_loaded = false;
+
     public array $servers = [];
+
     public array $selected_connection = [];
+
     public array $custom_connection = [];
 
     public function rules()
@@ -43,11 +46,13 @@ class PlexServers extends Component
         return view('pages.setup.plex-servers');
     }
 
-    function load(): void
+    public function load(): void
     {
+        Log::info('test');
         // Prevent user from visiting this page without a plex auth token
         if (!settings('plex_token')) {
             $this->redirect(route('setup.plex-auth'), false);
+
             return;
         }
 
@@ -68,7 +73,7 @@ class PlexServers extends Component
         $this->servers_loaded = true;
     }
 
-    function loadPlexServers(): void
+    public function loadPlexServers(): void
     {
         // Dev data
         $response = [
@@ -79,46 +84,46 @@ class PlexServers extends Component
                 'publicAddress' => '162.239.195.175',
                 'connections' => [
                     [
-                        "protocol" => "http",
-                        "address" => "192.168.1.3",
-                        "port" => "32400",
-                        "uri" => "https://192-168-1-3.8e41b6cde605491abfc1d33cf2d2d2f6.plex.direct:32400",
-                        "local" => "1",
-                        "relay" => "0",
-                        "IPv6" => "0",
-                        'online' => "1",
+                        'protocol' => 'http',
+                        'address' => '192.168.1.3',
+                        'port' => '32400',
+                        'uri' => 'https://192-168-1-3.8e41b6cde605491abfc1d33cf2d2d2f6.plex.direct:32400',
+                        'local' => '1',
+                        'relay' => '0',
+                        'IPv6' => '0',
+                        'online' => '1',
                     ],
                     [
-                        "protocol" => "https",
-                        "address" => "plex.home.hershey.co",
-                        "port" => "32400",
-                        "uri" => "https://plex.home.hershey.co:32400",
-                        "local" => "0",
-                        "relay" => "0",
-                        "IPv6" => "0",
-                        'online' => "0",
+                        'protocol' => 'https',
+                        'address' => 'plex.home.hershey.co',
+                        'port' => '32400',
+                        'uri' => 'https://plex.home.hershey.co:32400',
+                        'local' => '0',
+                        'relay' => '0',
+                        'IPv6' => '0',
+                        'online' => '0',
                     ],
                     [
-                        "protocol" => "http",
-                        "address" => "162.239.195.175",
-                        "port" => "32400",
-                        "uri" => "https://162-239-195-175.8e41b6cde605491abfc1d33cf2d2d2f6.plex.direct:32400",
-                        "local" => "0",
-                        "relay" => "0",
-                        "IPv6" => "0",
-                        'online' => "0",
+                        'protocol' => 'http',
+                        'address' => '162.239.195.175',
+                        'port' => '32400',
+                        'uri' => 'https://162-239-195-175.8e41b6cde605491abfc1d33cf2d2d2f6.plex.direct:32400',
+                        'local' => '0',
+                        'relay' => '0',
+                        'IPv6' => '0',
+                        'online' => '0',
                     ],
                     [
-                        "protocol" => "http",
-                        "address" => "1050:0000:0000:0000:0005:0600:0000:0000:0005:0600:0000:0000:0005:0600:300c:326b",
-                        "port" => "32400",
-                        "uri" => "https://162-239-195-175.8e41b6cde605491abfc1d33cf2d2d2f6.plex.direct:32400",
-                        "local" => "0",
-                        "relay" => "0",
-                        "IPv6" => "1",
-                        'online' => "0",
-                    ]
-                ]
+                        'protocol' => 'http',
+                        'address' => '1050:0000:0000:0000:0005:0600:0000:0000:0005:0600:0000:0000:0005:0600:300c:326b',
+                        'port' => '32400',
+                        'uri' => 'https://162-239-195-175.8e41b6cde605491abfc1d33cf2d2d2f6.plex.direct:32400',
+                        'local' => '0',
+                        'relay' => '0',
+                        'IPv6' => '1',
+                        'online' => '0',
+                    ],
+                ],
             ], [
                 'name' => 'Test Server',
                 'platform' => 'Linux',
@@ -126,17 +131,17 @@ class PlexServers extends Component
                 'publicAddress' => '8.8.8.8',
                 'connections' => [
                     [
-                        "protocol" => "http",
-                        "address" => "192.168.1.4",
-                        "port" => "32400",
-                        "uri" => "https://192-168-1-4.e40b11e2e4aa41b0beaf81143f37e81a.plex.direct:32400",
-                        "local" => "1",
-                        "relay" => "0",
-                        "IPv6" => "0",
-                        'online' => "1",
-                    ]
-                ]
-            ]
+                        'protocol' => 'http',
+                        'address' => '192.168.1.4',
+                        'port' => '32400',
+                        'uri' => 'https://192-168-1-4.e40b11e2e4aa41b0beaf81143f37e81a.plex.direct:32400',
+                        'local' => '1',
+                        'relay' => '0',
+                        'IPv6' => '0',
+                        'online' => '1',
+                    ],
+                ],
+            ],
         ];
 
         // Load plex servers
@@ -145,6 +150,7 @@ class PlexServers extends Component
         // Error catching
         if (hasError($response)) {
             toast()->danger($response['error'], 'Plex API Error')->sticky()->push();
+
             return;
         }
 
@@ -160,7 +166,7 @@ class PlexServers extends Component
         }
     }
 
-    function selectPlexConnection(int $server_key, int $connection_key): void
+    public function selectPlexConnection(int $server_key, int $connection_key): void
     {
         $connection = $this->servers[$server_key]['connections'][$connection_key];
 
@@ -180,16 +186,16 @@ class PlexServers extends Component
         }
     }
 
-    function submitCustomConnection(): void
+    public function submitCustomConnection(): void
     {
         // Validate
         $this->validate();
 
         // Build connection array
         $this->selected_connection = [
-            "protocol" => (isset($this->custom_connection['ssl']) && $this->custom_connection['ssl']) ? 'https' : 'http',
-            "address" => $this->custom_connection['host'],
-            "port" => $this->custom_connection['port'],
+            'protocol' => (isset($this->custom_connection['ssl']) && $this->custom_connection['ssl']) ? 'https' : 'http',
+            'address' => $this->custom_connection['host'],
+            'port' => $this->custom_connection['port'],
         ];
 
         if ($this->testConnection()) {
@@ -202,7 +208,7 @@ class PlexServers extends Component
         }
     }
 
-    function testConnection(): bool
+    public function testConnection(): bool
     {
         // Test connection
         $status = (new Plex($this->selected_connection))->testConnection();
@@ -210,22 +216,24 @@ class PlexServers extends Component
         // Check for error
         if (hasError($status)) {
             toast()->danger($status['error'])->push();
+
             return false;
         }
+
         return true;
     }
 
-    function saveServer(): bool
+    public function saveServer(): bool
     {
         $server = (new Plex($this->selected_connection))->saveServerFromConnection();
+
         return hasError($server) ? false : true;
     }
 
-    function resetPlexAuth(): void
+    public function resetPlexAuth(): void
     {
         // Clear plex token if we have one
         settings(['plex_token' => null]);
         $this->redirect(route('setup.plex-auth'), navigate: false);
-        return;
     }
 }

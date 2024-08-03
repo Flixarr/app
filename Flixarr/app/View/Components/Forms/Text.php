@@ -9,8 +9,11 @@ use Illuminate\View\Component;
 class Text extends Component
 {
     public string $wiremodel;
+
     public string $label;
+
     public string $type;
+
     public string $placeholder;
 
     /**

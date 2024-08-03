@@ -3,8 +3,7 @@
 /**
  * Returns bool if error exists
  *
- * @param mixed $response
- * @return bool
+ * @param  mixed  $response
  */
 function hasError($response): bool
 {

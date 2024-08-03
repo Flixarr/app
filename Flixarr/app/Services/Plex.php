@@ -12,8 +12,11 @@ class Plex
     use WireToast;
 
     public $protocol;
+
     public $address;
+
     public $port;
+
     public $access_token;
 
     public function __construct($connection = [])
@@ -26,15 +29,11 @@ class Plex
 
     /**
      * Make local API calls to your plex server
-     *
-     * @param string $path
-     * @param integer $timeout
-     * @return \Illuminate\Http\Client\Response|array
      */
-    function call(string $path, array $params = [], int $timeout = 5): \Illuminate\Http\Client\Response|array
+    public function call(string $path, array $params = [], int $timeout = 5): \Illuminate\Http\Client\Response|array
     {
         // Build the URL to your local plex server
-        $url = $this->protocol . '://' . $this->address . ':' . $this->port . $path;
+        $url = $this->protocol.'://'.$this->address.':'.$this->port.$path;
 
         // Log it
         // logAction('Plex API', 'Calling Server...', [
@@ -64,8 +63,8 @@ class Plex
         // Don't really know if this is needed, but just in case
         if ($response->failed()) {
             return [
-                'error' => 'There was an issue communicating with your Plex Server. (' . $response->status() . ')',
-                'data' => $response->body()
+                'error' => 'There was an issue communicating with your Plex Server. ('.$response->status().')',
+                'data' => $response->body(),
             ];
         }
 
@@ -75,10 +74,8 @@ class Plex
 
     /**
      * Test Plex Server Connection
-     *
-     * @return boolean|array
      */
-    function testConnection(): bool|array
+    public function testConnection(): bool|array
     {
         $status = $this->call('/');
 
@@ -98,10 +95,8 @@ class Plex
 
     /**
      * Returns the friendly server name
-     *
-     * @return string|array
      */
-    function getServerName(): string|array
+    public function getServerName(): string|array
     {
         logAction('Plex API', 'getServerName');
 
@@ -120,13 +115,13 @@ class Plex
     /**
      * Saves the server details of the current connection
      *
-     * @param boolean $setAsActiveServer
+     * @param  bool  $setAsActiveServer
      * @return PlexServer
      */
-    function saveServerFromConnection($setAsActiveServer = true): PlexServer|array
+    public function saveServerFromConnection($setAsActiveServer = true): PlexServer|array
     {
         // Create new plex server model
-        $server = new PlexServer();
+        $server = new PlexServer;
 
         $server->name = $this->getServerName();
         $server->protocol = $this->protocol;
@@ -137,6 +132,7 @@ class Plex
             $server->save();
         } catch (\Throwable $throwable) {
             logError('Plex API', 'saveServerFromConnection', $throwable);
+
             return [
                 'error' => 'There was an issue saving the server to the database. Refresh the page and try again.',
                 'data' => $throwable,

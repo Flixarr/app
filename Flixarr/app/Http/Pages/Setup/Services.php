@@ -8,7 +8,9 @@ use Livewire\Component;
 class Services extends Component
 {
     public int $step;
+
     public $radarr = [];
+
     public $sonarr = [];
 
     #[Layout('layouts.app', ['title' => 'Services'])]
@@ -17,7 +19,7 @@ class Services extends Component
         return view('pages.setup.services');
     }
 
-    function load(): void
+    public function load(): void
     {
         // $this->step = 1;
     }

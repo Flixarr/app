@@ -12,7 +12,7 @@ trait WithLivewireLogger
     public function mount()
     {
         logAction('App', 'Page load', [
-            collect(Route::getCurrentRoute())->toArray()
+            collect(Route::getCurrentRoute())->toArray(),
         ]);
     }
 }

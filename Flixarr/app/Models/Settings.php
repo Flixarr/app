@@ -2,13 +2,13 @@
 
 namespace App\Models;
 
-use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Usernotnull\Toast\Concerns\WireToast;
 
 class Settings extends Model
 {
     use WireToast;
+
     protected $fillable = [
         'key',
         'value',
@@ -16,7 +16,7 @@ class Settings extends Model
 
     public static $settings = null;
 
-    static function get(string $key, mixed $default = null): mixed
+    public static function get(string $key, mixed $default = null): mixed
     {
         if (empty(self::$settings)) {
             self::$settings = self::all();
@@ -31,7 +31,7 @@ class Settings extends Model
         }
     }
 
-    static function set(string $key, $value, $returnValue = false): mixed
+    public static function set(string $key, $value, $returnValue = false): mixed
     {
         if (empty(self::$settings)) {
             self::$settings = self::all();
