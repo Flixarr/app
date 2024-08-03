@@ -4,7 +4,7 @@ use Illuminate\Support\Facades\Log;
 
 function logError(string $title, ?string $message = null, ?object $throwable = null): void
 {
-    $context = (!$throwable) ? [] : [
+    $context = (! $throwable) ? [] : [
         'message' => $throwable->getMessage(),
         'file' => debug_backtrace()[0]['file'],
         'line' => debug_backtrace()[0]['line'],
