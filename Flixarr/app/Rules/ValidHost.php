@@ -14,7 +14,7 @@ class ValidHost implements ValidationRule
      */
     public function validate(string $attribute, mixed $value, Closure $fail): void
     {
-        if (! self::isValidFDQN($value) && ! self::isValidIP($value)) {
+        if (!self::isValidFDQN($value) && !self::isValidIP($value)) {
             $fail('The :attribute must be a valid Hostname or IP Address');
         }
     }
