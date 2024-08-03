@@ -1,6 +1,9 @@
 {
     "preset": "laravel",
     "rules": {
-        "not_operator_with_successor_space": false
+        "align_multiline_comment": true,
+        "array_indentation": true,
+        "not_operator_with_successor_space": false,
+        "single_line_comment_spacing": true
     }
 }

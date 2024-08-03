@@ -16,6 +16,7 @@ class PlexAuth extends Component
 
     /**
      * Render the Plex Signin button
+     * asdf
      */
     #[Layout('layouts.app', ['title' => 'Plex Authentication'])]
     public function render(): View
@@ -50,7 +51,7 @@ class PlexAuth extends Component
         }
 
         // Check for missing plex auth pin
-        if (session()->has('plex_auth_pin')) {
+        if (session()->missing('plex_auth_pin')) {
             toast()->danger('There was a problem with Plex\'s API. Refresh the page and try again. (Missing Authentication PIN)', 'Plex API Error')->sticky()->push();
 
             return false;

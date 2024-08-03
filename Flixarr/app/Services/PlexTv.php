@@ -46,7 +46,7 @@ class PlexTv
 
         // Make the API call
         try {
-            //code...
+            // code...
             $response = Http::withHeaders($this->headers)->$type($url, $params);
         } catch (\Throwable $error) {
             return [
@@ -79,9 +79,13 @@ class PlexTv
         // Return the Auth PIN array
         $response = $this->call('/api/v2/pins', ['strong' => 'true'], 'post');
 
+        dd($response);
+
         // If there wasn't any errors, store the auth pin in the session
         if (!hasError($response)) {
-            session(['plex_auth_pin' => $response]);
+            settings(['plex_pin_id' => $response['id']]);
+            settings(['plex_pin_code' => $response['code']]);
+            // session(['plex_auth_pin' => $response]);
         }
 
         // Return the Auth PIN or Error
@@ -113,10 +117,12 @@ class PlexTv
     {
         // Retrieve the previously saved Auth PIN from Plex by sending Plex the Pin ID
         $response = $this->call('/api/v2/pins/'.session('plex_auth_pin')['id']);
+
         // If there was an error, return it
         if (hasError($response)) {
             return $response;
         }
+
         // Ensure 'authToken' key exists in array
         if (!array_key_exists('authToken', $response)) {
             return [
@@ -124,6 +130,7 @@ class PlexTv
                 'data' => $response,
             ];
         }
+
         // If the auth token array key exists and it is not null, auth was successful.
         if ($response['authToken']) {
             // Save the token
