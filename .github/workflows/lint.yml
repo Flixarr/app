@@ -25,7 +25,7 @@ jobs:
         run: composer global require laravel/pint
  
       - name: Run Pint
-        run: pint --path=/Flixarr --config=/Flixarr/pint.json
+        run: pint Flixarr --config=/Flixarr/pint.json
  
       - name: Commit linted files
         uses: stefanzweifel/git-auto-commit-action@v5
