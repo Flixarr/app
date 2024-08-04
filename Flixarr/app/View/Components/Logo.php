@@ -12,6 +12,8 @@ class Logo extends Component
 
     /**
      * Create a new component instance.
+     *
+     * @param  mixed|null  $size
      */
     public function __construct($size = null)
     {
@@ -21,7 +23,7 @@ class Logo extends Component
     /**
      * Get the view / contents that represent the component.
      */
-    public function render(): View|Closure|string
+    public function render(): Closure|View|string
     {
         return view('components.logo');
     }

@@ -1,0 +1,24 @@
+includes:
+    - vendor/larastan/larastan/extension.neon
+
+parameters:
+
+    paths:
+      - ./app
+      - ./config
+      - ./database
+      - ./resources
+      - ./routes
+      - ./tests
+
+    # Level 9 is the highest level
+    level: 2
+
+    excludePaths:
+      - ./app/Helpers/_ide_helper.php
+
+#    ignoreErrors:
+#        - '#PHPDoc tag @var#'
+#
+#
+#    checkMissingIterableValueType: false

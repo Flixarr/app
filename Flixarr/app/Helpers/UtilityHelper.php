@@ -11,14 +11,13 @@
  *
  * @return null;
  *
- * @throws Throwable
+ * @throws  Throwable
  */
 function attempt(callable $callback, string $action, bool $trace = false): mixed
 {
     try {
         return $callback();
     } catch (Throwable $e) {
-
         // Idk if I want to use this or not. Let's come back to this.
         report($e);
         // Log::error('[' . $e->getCode() . '] "' . $e->getMessage() . '" on line ' . $e->getTrace()[0]['line'] . ' of file ' . $e->getTrace()[0]['file']);
@@ -59,13 +58,16 @@ function xml2array($xml): array
 function normalizeSimpleXML($obj, &$result): void
 {
     $data = $obj;
+
     if (is_object($data)) {
         $data = get_object_vars($data);
     }
+
     if (is_array($data)) {
         foreach ($data as $key => $value) {
             $res = null;
             normalizeSimpleXML($value, $res);
+
             if (($key == '@attributes') && ($key)) {
                 $result = $res;
             } else {

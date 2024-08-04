@@ -4,7 +4,6 @@ use Illuminate\Support\Facades\Facade;
 use Illuminate\Support\ServiceProvider;
 
 return [
-
     /*
     |--------------------------------------------------------------------------
     | Application Name
@@ -207,5 +206,4 @@ return [
         // Required to get browser information for Plex Authentication
         'Agent' => Jenssegers\Agent\Facades\Agent::class,
     ])->toArray(),
-
 ];

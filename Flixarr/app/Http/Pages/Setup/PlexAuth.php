@@ -30,6 +30,7 @@ class PlexAuth extends Component
         // Verify the user is not already authenticated
         if (settings('plex_token')) {
             $this->redirect(route('setup.plex-servers'), false);
+
             return;
         }
     }
@@ -62,7 +63,7 @@ class PlexAuth extends Component
     /**
      * Returns the Plex Authentication URL to redirect the Plex Popup to the Plex sign in page
      */
-    public function getPlexAuthUrl(): string|bool
+    public function getPlexAuthUrl(): bool|string
     {
         // Get response from Plex API
         $response = (new PlexTv)->authUrl();
@@ -85,9 +86,9 @@ class PlexAuth extends Component
      * time it polls. It checks if the auth pin has been registered and a valid
      * auth token was given
      *
-     * @return bool|array
+     * @return  array|bool
      */
-    public function plexAuth(): bool|array|HandlesRedirects
+    public function plexAuth(): HandlesRedirects|array|bool
     {
         // Get the authentication response from the local Plex API
         $response = (new PlexTv)->authenticate();

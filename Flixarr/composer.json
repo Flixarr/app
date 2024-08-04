@@ -21,6 +21,7 @@
     "require-dev": {
         "barryvdh/laravel-ide-helper": "^3.1",
         "fakerphp/faker": "v1.23.1",
+        "larastan/larastan": "^2.0",
         "laravel/pint": "^1.17",
         "laravel/sail": "v1.31.0",
         "mockery/mockery": "1.6.12",

@@ -12,10 +12,10 @@ function logError(string $title, ?string $message = null, ?object $throwable = n
         'previous' => $throwable->getPrevious(),
     ];
 
-    Log::error($title.': '.$message, $context);
+    Log::error($title . ': ' . $message, $context);
 }
 
 function logAction(string $where, string $message, array $data = []): void
 {
-    Log::info($where.' - '.$message, $data);
+    Log::info($where . ' - ' . $message, $data);
 }

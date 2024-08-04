@@ -9,12 +9,11 @@ class Settings extends Model
 {
     use WireToast;
 
+    public static $settings = null;
     protected $fillable = [
         'key',
         'value',
     ];
-
-    public static $settings = null;
 
     public static function get(string $key, mixed $default = null): mixed
     {

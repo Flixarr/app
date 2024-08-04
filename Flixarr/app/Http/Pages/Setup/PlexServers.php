@@ -17,11 +17,8 @@ class PlexServers extends Component
     use WireToast, WithLivewireLogger, WithValidationToasts;
 
     public bool $servers_loaded = false;
-
     public array $servers = [];
-
     public array $selected_connection = [];
-
     public array $custom_connection = [];
 
     public function rules()
@@ -49,6 +46,7 @@ class PlexServers extends Component
     public function load(): void
     {
         Log::info('test');
+
         // Prevent user from visiting this page without a plex auth token
         if (!settings('plex_token')) {
             $this->redirect(route('setup.plex-auth'), false);

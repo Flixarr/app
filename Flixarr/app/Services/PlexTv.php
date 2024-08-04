@@ -10,7 +10,6 @@ class PlexTv
     use WireToast;
 
     protected $client_id;
-
     protected $headers;
 
     public function __construct()
@@ -18,7 +17,7 @@ class PlexTv
         $this->client_id = config('app.name');
         $this->headers = [
             'X-Plex-Token' => settings('plex_token'),
-            'X-Plex-Device' => 'Docker ID: '.gethostname(),
+            'X-Plex-Device' => 'Docker ID: ' . gethostname(),
             'X-Plex-Device-Name' => 'Flixarr',
             'X-Plex-Version' => config('app.build'),
             'X-Plex-Product' => 'Flixarr',
@@ -35,14 +34,16 @@ class PlexTv
      * Makes API calls to Plex.tv
      *
      * @param  string  $endpoint
-     * @param  array  $params
+     * @param  array   $params
      * @param  string  $type
-     * @return \Illuminate\Http\Client\Response|array
+     * @param  mixed   $isXml
+     *
+     * @return  array|\Illuminate\Http\Client\Response
      */
     public function call($endpoint, $params = [], $type = 'get', $isXml = true): \Illuminate\Http\Client\Response|array|string
     {
         // Build the URL
-        $url = 'https://plex.tv'.$endpoint;
+        $url = 'https://plex.tv' . $endpoint;
 
         // Make the API call
         try {
@@ -58,7 +59,7 @@ class PlexTv
         // Check the response status
         if ($response->failed()) {
             return [
-                'error' => 'There was an issue communicating with Plex\'s API. ('.$response->status().')',
+                'error' => 'There was an issue communicating with Plex\'s API. (' . $response->status() . ')',
                 'data' => xml2array($response->body()),
             ];
         }
@@ -98,10 +99,10 @@ class PlexTv
      * This function generates a Plex Auth Pin, then returns the Auth URL the
      * user must use to authenticate.
      */
-    public function authUrl(): string|array
+    public function authUrl(): array|string
     {
         // Return the auth URL
-        return 'https://app.plex.tv/auth#!?clientID='.$this->client_id.'&code='.session('plex_auth_pin')['code'];
+        return 'https://app.plex.tv/auth#!?clientID=' . $this->client_id . '&code=' . session('plex_auth_pin')['code'];
     }
 
     /**
@@ -113,10 +114,10 @@ class PlexTv
      * If auth was unsuccessful, this function will return "false"
      * If there was an error, this function will return an array
      */
-    public function authenticate(): bool|array
+    public function authenticate(): array|bool
     {
         // Retrieve the previously saved Auth PIN from Plex by sending Plex the Pin ID
-        $response = $this->call('/api/v2/pins/'.session('plex_auth_pin')['id']);
+        $response = $this->call('/api/v2/pins/' . session('plex_auth_pin')['id']);
 
         // If there was an error, return it
         if (hasError($response)) {
