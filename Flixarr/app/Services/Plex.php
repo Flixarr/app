@@ -12,7 +12,6 @@ class Plex
 {
     use ValidatesRequests;
     use WireToast;
-
     public $protocol;
     public $address;
     public $port;
