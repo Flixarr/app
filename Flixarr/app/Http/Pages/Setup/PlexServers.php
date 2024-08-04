@@ -50,7 +50,7 @@ class PlexServers extends Component
     {
         Log::info('test');
         // Prevent user from visiting this page without a plex auth token
-        if (! settings('plex_token')) {
+        if (!settings('plex_token')) {
             $this->redirect(route('setup.plex-auth'), false);
 
             return;

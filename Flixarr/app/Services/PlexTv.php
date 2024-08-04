@@ -82,7 +82,7 @@ class PlexTv
         dd($response);
 
         // If there wasn't any errors, store the auth pin in the session
-        if (! hasError($response)) {
+        if (!hasError($response)) {
             settings(['plex_pin_id' => $response['id']]);
             settings(['plex_pin_code' => $response['code']]);
             // session(['plex_auth_pin' => $response]);
@@ -124,7 +124,7 @@ class PlexTv
         }
 
         // Ensure 'authToken' key exists in array
-        if (! array_key_exists('authToken', $response)) {
+        if (!array_key_exists('authToken', $response)) {
             return [
                 'error' => 'There was an issue with Plex\'s API. Refresh the page and try again. (Missing Authentication Token)',
                 'data' => $response,
@@ -174,7 +174,7 @@ class PlexTv
         }
 
         // Check if user has any servers associated with their account (owned or shared)
-        if (! array_key_exists('resource', $response)) {
+        if (!array_key_exists('resource', $response)) {
             return [];
         }
 
@@ -182,7 +182,7 @@ class PlexTv
         $response = collect($response['resource'])->where('owned', true)->where('provides', 'server')->toArray();
 
         // Check if user has any owned servers
-        if (! array_key_exists(0, $response)) {
+        if (!array_key_exists(0, $response)) {
             return [];
         }
 
