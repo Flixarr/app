@@ -4,12 +4,11 @@ on:
   push:
     branches:
       - master
+      - dev
   pull_request:
     branches-ignore:
       - 'dependabot/npm_and_yarn/*'
       - 'dependabot/composer/*'
-  schedule:
-    - cron: '0 0 * * *'
 
     
 jobs:
