@@ -83,7 +83,7 @@ class Plex
             return $status;
         }
 
-        if (!array_key_exists('machineIdentifier', $status)) {
+        if (! array_key_exists('machineIdentifier', $status)) {
             return [
                 'error' => 'There was an issue communicating with your Plex Server. (500)',
                 'data' => $status,
@@ -102,7 +102,7 @@ class Plex
 
         $response = $this->call('/');
 
-        if (!array_key_exists('friendlyName', $response)) {
+        if (! array_key_exists('friendlyName', $response)) {
             return [
                 'error' => 'There was an issue getting the server name.',
                 'data' => $response,
