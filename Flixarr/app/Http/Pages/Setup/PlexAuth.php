@@ -30,7 +30,6 @@ class PlexAuth extends Component
         // Verify the user is not already authenticated
         if (settings('plex_token')) {
             $this->redirect(route('setup.plex-servers'), false);
-
             return;
         }
     }

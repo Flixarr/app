@@ -3,7 +3,7 @@ name: Tests
 on: ['push', 'pull_request']
 
 jobs:
-  artisan-test:
+  phpunit:
     runs-on: ubuntu-latest
 
     defaults:

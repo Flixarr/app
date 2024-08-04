@@ -1,35 +1,36 @@
 name: Code Review
- 
+
 on: [push]
  
 jobs:
   laravel-pint:
     runs-on: ubuntu-latest
+    
     strategy:
       fail-fast: true
       matrix:
         php: [8.3]
-
+    
     defaults:
       run:
-        working-directory: ./Flixarr
- 
+        working-directory: ./Flixarr 
+    
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
         with:
-          fetch-depth: 2
- 
+          fetch-depth: 2 
+    
       - name: Setup PHP
         uses: shivammathur/setup-php@v2
         with:
           php-version: ${{ matrix.php }}
           extensions: json, dom, curl, libxml, mbstring
-          coverage: none
- 
+          coverage: none 
+
       - name: Install Pint
-        run: composer global require laravel/pint
- 
+        run: composer global require laravel/pint 
+
       - name: Run Pint
         run: pint --test
 
