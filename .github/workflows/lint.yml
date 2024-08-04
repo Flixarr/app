@@ -26,6 +26,9 @@ jobs:
  
       - name: Install Pint
         run: composer global require laravel/pint
+
+      - name: Checkout last commit
+        run: git checkout HEAD^
  
       - name: Run Pint
         run: pint
@@ -33,5 +36,6 @@ jobs:
       - name: Commit linted files
         uses: stefanzweifel/git-auto-commit-action@v5
         with:
-          commit_message: "[chore] Linting code"
+          commit_message: "Linting..."
+          commit_options: '--amend'
 

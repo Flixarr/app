@@ -25,7 +25,7 @@ class PlexAuth extends Component
     }
 
     // Comment
-    public function load(): void
+    public function load() : void
     {
         // Verify the user is not already authenticated
         if (settings('plex_token')) {
