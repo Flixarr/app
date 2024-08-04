@@ -31,7 +31,7 @@ jobs:
         run: composer global require laravel/pint
  
       - name: Run Pint
-        run: pint || exit 1
+        run: pint --test
 
       # - name: Get last commit message
       #   id: last-commit
