@@ -3,7 +3,7 @@ name: Tests
 on: ['push', 'pull_request']
 
 jobs:
-  ci:
+  artisan-test:
     runs-on: ubuntu-latest
 
     defaults:
