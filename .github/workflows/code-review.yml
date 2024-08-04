@@ -31,8 +31,16 @@ jobs:
       - name: Install Pint
         run: composer global require laravel/pint 
 
+      # - name: Run Pint
+      #   run: pint --test
+
       - name: Run Pint
-        run: pint --test
+        run: |
+          pint --test
+          if [ $? -ne 0 ]; then
+            echo "Pint failed with errors. Please fix the code style issues."
+            exit 1
+          fi
 
       # - name: Get last commit message
       #   id: last-commit
