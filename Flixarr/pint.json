@@ -37,7 +37,10 @@
             ]
         },
         "blank_line_between_import_groups": true,
-        "blank_lines_before_namespace": true,
+        "blank_lines_before_namespace": {
+            "max_line_breaks": 2,
+            "min_line_breaks": 2
+        },
         "braces_position": {
             "control_structures_opening_brace": "same_line",
             "functions_opening_brace": "next_line_unless_newline_at_signature_end",
@@ -47,7 +50,9 @@
             "allow_single_line_empty_anonymous_classes": false,
             "allow_single_line_anonymous_functions": false
         },
-        "cast_spaces": true,
+        "cast_spaces": {
+            "space": "single"
+        },
         "class_attributes_separation": {
             "elements": {
                 "trait_import": "none",
