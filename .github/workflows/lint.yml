@@ -1,32 +1,49 @@
 name: Code Review
-
-on: ['push', 'pull_request']
-
-    
+ 
+on: [push]
+ 
 jobs:
   laravel-pint:
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: true
+      matrix:
+        php: [8.3]
+
     defaults:
       run:
         working-directory: ./Flixarr
-    runs-on: ubuntu-latest
+ 
     steps:
-      - name: Checkout
+      - name: Checkout code
         uses: actions/checkout@v4
-
-      - name: Get changed files
-        id: changed-files
-        uses: tj-actions/changed-files@v39
-
-      - name: Run Laravel Pint
-        uses: sergotail/laravel-pint-action
         with:
-          onlyFiles: ${{ steps.changed-files.outputs.all_changed_files }}
-          testMode: true
-          verboseMode: true
-          configPath: ./pint.json
-          preset: laravel
-          onlyDirty: false
-          annotate: true
-          pintVersion: 1.8.0
-          annotateVersion: 1.8.5
-          useComposer: true
+          fetch-depth: 2
+ 
+      - name: Setup PHP
+        uses: shivammathur/setup-php@v2
+        with:
+          php-version: ${{ matrix.php }}
+          extensions: json, dom, curl, libxml, mbstring
+          coverage: none
+ 
+      - name: Install Pint
+        run: composer global require laravel/pint
+ 
+      - name: Run Pint
+        run: pint
+
+      - name: Get last commit message
+        id: last-commit
+        run: |
+          echo "message=$(git log -1 --pretty=%s)" >> $GITHUB_OUTPUT
+          echo "author=$(git log -1 --pretty=\"%an <%ae>\")" >> $GITHUB_OUTPUT
+ 
+      - name: Commit linted files
+        uses: stefanzweifel/git-auto-commit-action@v5
+        with:
+          commit_author: ${{ steps.last-commit.outputs.author }}
+          commit_message: ${{ steps.last-commit.outputs.message }}
+          commit_options: '--amend --no-edit'
+          push_options: '--force'
+          skip_fetch: true
