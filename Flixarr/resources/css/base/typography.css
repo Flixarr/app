@@ -4,6 +4,7 @@
         font-weight: 100 200 300 400 500 600 700 800 900;
         src: url(../../public/fonts/Inter.ttf) format("truetype");
     }
+
     @font-face {
         font-family: "Logo";
         src: url(../../public/fonts/logo-font.ttf) format("truetype");
@@ -12,27 +13,35 @@
     .font-thin {
         font-variation-settings: "wght" 100;
     }
+
     .font-extralight {
         font-variation-settings: "wght" 200;
     }
+
     .font-light {
         font-variation-settings: "wght" 300;
     }
+
     .font-normal {
         font-variation-settings: "wght" 400;
     }
+
     .font-medium {
         font-variation-settings: "wght" 500;
     }
+
     .font-semibold {
         font-variation-settings: "wght" 600;
     }
+
     .font-bold {
         font-variation-settings: "wght" 700;
     }
+
     .font-extrabold {
         font-variation-settings: "wght" 800;
     }
+
     .font-black {
         font-variation-settings: "wght" 900;
     }
@@ -40,12 +49,15 @@
     .text-logo {
         @apply px-2 text-white underline font-logo drop-shadow-xl underline-offset-2 decoration-primary;
     }
+
     .text-sub {
-        @apply text-xs text-muted-dark;
+        @apply text-xs text-muted-dark tracking-wide leading-4;
     }
+
     .text-link {
         @apply text-white underline underline-offset-2 decoration-primary;
     }
+
     .text-link[target="_blank"] {
         @apply after:content-['_↗'] whitespace-nowrap;
     }

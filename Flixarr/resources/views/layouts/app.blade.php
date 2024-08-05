@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html class="h-full dark" lang="{{ str_replace('_', '-', app()->getLocale()) }}">
+<html class="dark h-full" lang="{{ str_replace('_', '-', app()->getLocale()) }}">
 
 <head>
     <meta charset="utf-8">
@@ -20,7 +20,7 @@
     </script>
 </head>
 
-<body class="@env('local') pb-6 @endenv overflow-hidden select-none">
+<body class="@env('local') pb-6 @endenv select-none overflow-hidden">
     <!-- Toasts -->
     <livewire:toasts />
 

@@ -5,22 +5,22 @@
                 {{-- Card header --}}
                 <div class="text-center">
                     <h2 class="card-title">Welcome to {{ config('app.name') }}!</h2>
-                    <p class="card-desc">First things first, we need to connect to your Plex Account.</p>
+                    <p class="card-desc">First things first, we need to connect your Plex Account.</p>
                 </div>
-                {{-- Card loading --}}
-                <div x-show="loading" x-cloak>
+
+                <div x-show="loading">
                     <x-loading />
                 </div>
-                {{-- Card content --}}
-                <div class="text-center" x-show="!loading">
-                    <button class="text-base button button-primary" x-on:click="initPlexAuth">
+
+                <div class="text-center" x-show="!loading" x-cloak>
+                    <button class="button button-primary text-base" x-on:click="initPlexAuth">
                         Sign in with Plex
                     </button>
                 </div>
             </div>
         </div>
 
-        <div class="text-center card-padding">
+        <div class="card-padding text-center">
             <p class="text-sub">
                 Connecting your Plex account allows Flixarr to communicate with your Plex Media Server.
                 Your login details are never visible to Flixarr. More information can be found <a class="text-link"href="#" target="_blank">here</a>.
@@ -37,7 +37,7 @@
             let pollingInterval = 2000 // How often should we poll for authentication (in milliseconds)
             Alpine.data('plexSignin', () => ({
                 // Hide/Disable sign in button - Show loading icon
-                loading: false,
+                loading: @this.entangle('loading').live,
                 // Initialize Plex Authentication
                 initPlexAuth() {
                     // Init Loading State
@@ -81,7 +81,7 @@
                         console.log('Polling Plex...')
                         // Check if the user has authenticated yet
                         @this.plexAuth().then(response => {
-                            console.log(response)
+                            console.log(response);
                             // The response will either be true for successful authentication, an array for an error,
                             // or false for an unsuccessful auth. If the auth was unsuccessful, we need to keep polling
                             // until it is.
@@ -93,12 +93,11 @@
                             }
 
                             // If the response is not null/false, stop polling
-                            if (response) {
+                            if (plexWindow.closed || response) {
                                 // Quit Plex Auth
                                 this.quitPlexAuth()
                                 // If response was bool, auth completed
-                                if (typeof response == 'boolean') {
-                                    console.log('Calling plexAuthCompleted...')
+                                if (response === true) {
                                     @this.plexAuthCompleted();
                                 }
                             }
@@ -111,8 +110,6 @@
                     clearInterval(poll)
                     // Close the plex window
                     plexWindow.close()
-                    // Disable loading state
-                    this.loading = false
                 }
             }))
         })

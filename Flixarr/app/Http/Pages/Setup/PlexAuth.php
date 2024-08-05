@@ -14,6 +14,9 @@ class PlexAuth extends Component
 {
     use WireToast, WithLivewireLogger;
 
+    // Loading state
+    public bool $loading = true;
+
     /**
      * Render the Plex Signin button
      * asdf
@@ -33,6 +36,9 @@ class PlexAuth extends Component
 
             return;
         }
+
+        // Update loading state
+        $this->loading = false;
     }
 
     /**
@@ -40,24 +46,13 @@ class PlexAuth extends Component
      */
     public function initPlexAuth(): bool
     {
+        $this->loading = true;
+
         // Generate Plex Auth PIN for this session
         $response = (new PlexTv)->generateAuthPin();
 
         // Check for errors from response
-        if (hasError($response)) {
-            toast()->danger($response['error'], 'Plex API Error')->sticky()->push();
-
-            return false;
-        }
-
-        // Check for missing plex auth pin
-        if (session()->missing('plex_auth_pin')) {
-            toast()->danger('There was a problem with Plex\'s API. Refresh the page and try again. (Missing Authentication PIN)', 'Plex API Error')->sticky()->push();
-
-            return false;
-        }
-
-        return true;
+        return hasError($response, showToast: true, toastTitle: 'Plex API Error') ? false : true;
     }
 
     /**
@@ -65,18 +60,8 @@ class PlexAuth extends Component
      */
     public function getPlexAuthUrl(): bool|string
     {
-        // Get response from Plex API
-        $response = (new PlexTv)->authUrl();
-
-        // If response is an array, something bad happened
-        if (hasError($response)) {
-            toast()->danger($response['error'], 'Plex API Error')->sticky()->push();
-
-            return false;
-        }
-
-        // Return Auth URL
-        return $response;
+        // Return the Auth URL
+        return (new PlexTv)->authUrl();
     }
 
     /**
@@ -94,11 +79,8 @@ class PlexAuth extends Component
         $response = (new PlexTv)->authenticate();
 
         // If there was an error, dispatch notification
-        if (hasError($response)) {
-            // Dispatch notification
-            toast()->danger($response['error'], 'Plex API Error')->sticky()->push();
-
-            // Return true to stop polling
+        if (hasError($response, showToast: true, toastTitle: 'Plex API Error')) {
+            // Return not null to stop polling
             return ['error' => $response['data']['message']];
         }
 
@@ -111,16 +93,17 @@ class PlexAuth extends Component
         return $response;
     }
 
-    public function plexAuthCompleted(): void
+    public function plexAuthCompleted(): bool
     {
         // Check if plex auth was actually completed
         if ((new PlexTv)->verifyAuth()) {
-            // Dispatch notification
-            toast()->success('Plex successfully connected!')->push();
             // Redirect to next step
             $this->redirect(route('setup.plex-servers'), navigate: false);
         } else {
-            toast()->danger('There was a problem authenticating your Plex account.', 'Plex Authentication Error')->push();
+            toast()->danger('There was a problem authenticating your Plex account. Please refresh the page and try again.', 'Plex Authentication Error')->push();
+            $this->loading = false;
         }
+
+        return false;
     }
 }

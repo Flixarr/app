@@ -2,13 +2,15 @@
 
 /**
  * Returns bool if error exists
- *
- * @param  mixed  $response
  */
-function hasError($response): bool
+function hasError(mixed $response, bool $showToast = false, ?string $toastTitle = null): bool
 {
     if (is_array($response) && array_key_exists('error', $response)) {
         // Has error
+        if ($showToast) {
+            toast()->danger($response['error'], $toastTitle)->sticky()->push();
+        }
+
         return true;
     } else {
         // Doesn't have error

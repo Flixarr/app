@@ -80,13 +80,10 @@ class PlexTv
         // Return the Auth PIN array
         $response = $this->call('/api/v2/pins', ['strong' => 'true'], 'post');
 
-        dd($response);
-
         // If there wasn't any errors, store the auth pin in the session
         if (!hasError($response)) {
             settings(['plex_pin_id' => $response['id']]);
             settings(['plex_pin_code' => $response['code']]);
-            // session(['plex_auth_pin' => $response]);
         }
 
         // Return the Auth PIN or Error
@@ -102,7 +99,7 @@ class PlexTv
     public function authUrl(): array|string
     {
         // Return the auth URL
-        return 'https://app.plex.tv/auth#!?clientID=' . $this->client_id . '&code=' . session('plex_auth_pin')['code'];
+        return 'https://app.plex.tv/auth#!?clientID=' . $this->client_id . '&code=' . settings('plex_pin_code');
     }
 
     /**
@@ -117,7 +114,7 @@ class PlexTv
     public function authenticate(): array|bool
     {
         // Retrieve the previously saved Auth PIN from Plex by sending Plex the Pin ID
-        $response = $this->call('/api/v2/pins/' . session('plex_auth_pin')['id']);
+        $response = $this->call('/api/v2/pins/' . settings('plex_pin_id'));
 
         // If there was an error, return it
         if (hasError($response)) {

@@ -3,14 +3,12 @@
 namespace App\Services;
 
 use App\Models\PlexServer;
-use Illuminate\Foundation\Validation\ValidatesRequests;
 use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Str;
 use Usernotnull\Toast\Concerns\WireToast;
 
 class Plex
 {
-    use ValidatesRequests;
     use WireToast;
 
     public $protocol;
@@ -48,7 +46,8 @@ class Plex
             // Check if 408 (timeout) error
             if (Str::contains($error->getMessage(), ['SSL', 'certificate'])) {
                 return [
-                    'error' => 'There was an issue with the SSL certificate. You can try to disable "Use SSL" and try again.',
+                    'error' => 'There was an issue with the SSL certificate. Disable SSL and try again.',
+                    // 'error' => 'There was an issue with the SSL certificate. Try to disable "Use SSL" and try again.',
                     'data' => $error->getMessage(),
                 ];
             } else {

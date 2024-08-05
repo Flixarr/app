@@ -1,23 +1,35 @@
 @layer components {
+
     /** Buttons */
     .button-container {
         @apply flex space-x-5 my-5 mx-5 tablet:mx-0 tablet:flex-row tablet:justify-end;
     }
+
     .button {
-        @apply py-2 px-5 font-medium w-full tablet:w-auto rounded-lg hover:brightness-125 hover:shadow disabled:brightness-100 disabled:cursor-wait;
+        /* @apply py-2 px-5 font-medium w-full tablet:w-auto rounded-lg hover:brightness-125 hover:shadow disabled:brightness-100 disabled:cursor-wait; */
+        @apply py-2 px-5 font-medium w-full tablet-lg:w-auto rounded-lg hover:border-hover hover:shadow hover:cursor-pointer disabled:brightness-100 disabled:cursor-wait;
     }
+
     .button:disabled {
         @apply opacity-50;
     }
+
     .button-primary {
         /* @apply bg-primary text-white hover:brightness-110 hover:shadow-lg border border-primary-light; */
-        @apply text-white bg-primary bg-gradient-to-br from-orange-800/5 to-black/50 border !border-primary-light/20;
+        /* @apply text-white bg-primary bg-gradient-to-br from-orange-800/5 to-black/50 border !border-primary-light/20; */
+        @apply text-white bg-primary/70 border !border-primary hover:to-black/60;
     }
+
     .button-muted {
         /* @apply text-white bg-gray-800 bg-gradient-to-br from-gray-900/50 to-gray-950/80 border border-gray-700/60; */
-        @apply text-white bg-gray-800 bg-gradient-to-br from-gray-800/50 to-black/50 border border-gray-700/60;
+        @apply text-white bg-gray-900/40 border border-gray-700/60;
     }
+
     .button-sm {
-        @apply px-3 py-1.5 text-sm;
+        @apply px-4 py-1.5 text-sm;
+    }
+
+    .button-wide {
+        @apply px-6;
     }
 }

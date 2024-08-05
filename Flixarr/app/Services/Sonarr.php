@@ -2,7 +2,7 @@
 
 namespace App\Services;
 
-class TMDB
+class Sonarr
 {
     public function __construct() {}
 }

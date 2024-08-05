@@ -16,18 +16,22 @@ class DefaultSettings extends Seeder
             [
                 'key' => 'app_name',
                 'value' => 'Flixarr',
+                'created_at' => now(),
             ],
             [
                 'key' => 'app_url',
                 'value' => '/',
+                'created_at' => now(),
             ],
             [
                 'key' => 'setup_completed',
                 'value' => false,
+                'created_at' => now(),
             ],
             [
                 'key' => 'plex_token',
                 'value' => null,
+                'created_at' => now(),
             ],
         ]);
     }
