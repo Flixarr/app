@@ -837,9 +837,13 @@ namespace Illuminate\Support\Facades {
         }
 
         /**
-         * @return  \Symfony\Component\HttpFoundation\Response
-         *
          * @static
+         *
+         * @param  mixed  $request
+         * @param  mixed  $type
+         * @param  mixed  $catch
+         *
+         * @return  \Symfony\Component\HttpFoundation\Response
          */
         public static function handle($request, $type = 1, $catch = true)
         {
@@ -24492,6 +24496,7 @@ namespace Jenssegers\Agent\Facades {
          * This method will be used to check custom regexes against
          * the User-Agent string.
          *
+         * @param  mixed   $regex
          * @param  string  $userAgent
          *
          * @return  bool
@@ -30524,6 +30529,7 @@ namespace {
 
 namespace Facades\Livewire\Features\SupportFileUploads {
     /**
-     * @mixin \Livewire\Features\SupportFileUploads\GenerateSignedUploadUrl     */
+     * @mixin \Livewire\Features\SupportFileUploads\GenerateSignedUploadUrl
+     * */
     class GenerateSignedUploadUrl extends \Livewire\Features\SupportFileUploads\GenerateSignedUploadUrl {}
 }
