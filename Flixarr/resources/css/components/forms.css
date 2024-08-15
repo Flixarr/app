@@ -19,7 +19,7 @@
 
     /** Defaults */
     .form-input {
-        @apply block read-only:cursor-wait w-full py-2 px-4 border-0 rounded-lg shadow-md bg-gray-800/50 ring-1 ring-inset ring-gray-700/40 placeholder:text-muted/50 focus:ring-inset focus:ring-primary sm:text-sm sm:leading-6;
+        @apply block read-only:cursor-wait w-full py-2 px-4 border-0 rounded-lg shadow-md bg-gray-800/50 ring-1 ring-inset ring-gray-700/40 placeholder:text-muted/50 focus:ring-inset focus:ring-primary text-sm sm:text-base sm:leading-6;
     }
 
     .form-input-error {
@@ -31,11 +31,15 @@
     }
 
     .form-label {
-        @apply text-sm font-medium leading-6 text-muted;
+        @apply text-sm font-medium leading-6 text-muted tracking-wide;
     }
 
     .form-label-error {
         @apply !text-red-500;
+    }
+
+    .form-desc {
+        @apply text-xs text-muted tracking-wide font-medium;
     }
 
     /** Text Input */

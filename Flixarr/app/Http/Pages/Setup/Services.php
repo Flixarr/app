@@ -2,6 +2,7 @@
 
 namespace App\Http\Pages\Setup;
 
+use App\Services\Radarr;
 use Livewire\Attributes\Layout;
 use Livewire\Component;
 use Usernotnull\Toast\Concerns\WireToast;
@@ -10,10 +11,8 @@ class Services extends Component
 {
     use WireToast;
 
-    public int $step;
+    public bool $loading = true;
     public array $services = [];
-    // public array $radarr = [];
-    // public array $sonarr = [];
 
     #[Layout('layouts.app', ['title' => 'Services'])]
     public function render()
@@ -30,7 +29,13 @@ class Services extends Component
             return;
         }
 
-        // $this->step = 1;
+        $this->loadServices();
+
+        $this->loading = false;
+    }
+
+    public function loadServices(): void
+    {
         $this->services = [
             'radarr' => [
                 'image' => 'https://i.imgur.com/WDp2BhX.png',
@@ -51,19 +56,33 @@ class Services extends Component
         ];
     }
 
-    public function submit($service): void
+    public function submitService($service): void
     {
-        $connection = [
-            'protocol' => $this->services[$service]['ssl'],
-            'host' => $this->services[$service]['host'],
-            'port' => $this->services[$service]['port'],
-            'key' => $this->services[$service]['key'],
-        ];
+        // Initialize the Radarr Connection
+        $initStatus = (new Radarr($this->services[$service]))->initConnection();
 
-        $this->services[$service]['connected'] = true;
+        if (hasError($initStatus, showToast: true)) {
+            return;
+        }
 
-        $this->dispatch('completed');
+        // $connection[$service] = [
+        //     'protocol' => $this->services[$service]['ssl'],
+        //     'host' => $this->services[$service]['host'],
+        //     'port' => $this->services[$service]['port'],
+        //     'key' => $this->services[$service]['key'],
+        // ];
 
-        toast()->debug($service)->push();
+        // $this->services[$service]['connected'] = true;
+
+        // $this->dispatch('completed');
+
+        // toast()->debug($service)->push();
+    }
+
+    public function resetServices(): void
+    {
+        $this->reset();
+        $this->loadServices();
+        $this->loading = false;
     }
 }

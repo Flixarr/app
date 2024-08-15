@@ -52,7 +52,7 @@ class Plex
                 ];
             } else {
                 return [
-                    'error' => 'There was an issue communicating with your Plex Server. (408)',
+                    'error' => 'There was an issue communicating with your Plex Server. Please report this error. (408)',
                     'data' => $error->getMessage(),
                 ];
             }

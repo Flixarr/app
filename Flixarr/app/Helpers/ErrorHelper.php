@@ -19,3 +19,11 @@ function hasError(mixed $response, bool $showToast = false, ?string $toastTitle 
 
     // return array_key_exists('error', $response);
 }
+
+/**
+ * The default method of throwing an error.
+ */
+// function throwError(string $message, string $title = null, array $data = [])
+// {
+//     toast()->danger($message, $title)->sticky()->push();
+// }

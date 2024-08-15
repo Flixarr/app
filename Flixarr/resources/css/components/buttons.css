@@ -2,7 +2,7 @@
 
     /** Buttons */
     .button-container {
-        @apply flex space-x-5 my-5 mx-5 tablet:mx-0 tablet:flex-row tablet:justify-end;
+        @apply flex space-x-5 my-5 tablet:mx-5 tablet:mx-0 tablet:flex-row tablet:justify-end;
     }
 
     .button {
