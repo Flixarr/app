@@ -14,22 +14,22 @@ class DefaultSettings extends Seeder
     {
         DB::table('settings')->insert([
             [
-                'key' => 'app_name',
+                'key' => 'app.name',
                 'value' => 'Flixarr',
                 'created_at' => now(),
             ],
             [
-                'key' => 'app_url',
+                'key' => 'app.url',
                 'value' => '/',
                 'created_at' => now(),
             ],
             [
-                'key' => 'setup_completed',
+                'key' => 'setup.completed',
                 'value' => false,
                 'created_at' => now(),
             ],
             [
-                'key' => 'plex_token',
+                'key' => 'plex.auth.token',
                 'value' => null,
                 'created_at' => now(),
             ],

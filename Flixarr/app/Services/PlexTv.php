@@ -16,7 +16,7 @@ class PlexTv
     {
         $this->client_id = config('app.name');
         $this->headers = [
-            'X-Plex-Token' => settings('plex_token'),
+            'X-Plex-Token' => settings('plex.auth.token'),
             'X-Plex-Device' => 'Docker ID: ' . gethostname(),
             'X-Plex-Device-Name' => 'Flixarr',
             'X-Plex-Version' => config('app.build'),
@@ -82,8 +82,8 @@ class PlexTv
 
         // If there wasn't any errors, store the auth pin in the session
         if (!hasError($response)) {
-            settings(['plex_pin_id' => $response['id']]);
-            settings(['plex_pin_code' => $response['code']]);
+            settings(['plex.auth.pin_id' => $response['id']]);
+            settings(['plex.auth.pin_code' => $response['code']]);
         }
 
         // Return the Auth PIN or Error
@@ -99,7 +99,7 @@ class PlexTv
     public function authUrl(): array|string
     {
         // Return the auth URL
-        return 'https://app.plex.tv/auth#!?clientID=' . $this->client_id . '&code=' . settings('plex_pin_code');
+        return 'https://app.plex.tv/auth#!?clientID=' . $this->client_id . '&code=' . settings('plex.auth.pin_code');
     }
 
     /**
@@ -114,7 +114,7 @@ class PlexTv
     public function authenticate(): array|bool
     {
         // Retrieve the previously saved Auth PIN from Plex by sending Plex the Pin ID
-        $response = $this->call('/api/v2/pins/' . settings('plex_pin_id'));
+        $response = $this->call('/api/v2/pins/' . settings('plex.auth.pin_id'));
 
         // If there was an error, return it
         if (hasError($response)) {
@@ -132,13 +132,38 @@ class PlexTv
         // If the auth token array key exists and it is not null, auth was successful.
         if ($response['authToken']) {
             // Save the token
-            settings(['plex_token' => $response['authToken']]);
+            settings([
+                'plex.auth.token' => $response['authToken'],
+            ]);
+
+            // Get and save the plex user data
+            $this->savePlexUserData();
 
             // Success
             return true;
         }
 
         return false;
+    }
+
+    /**
+     * Save Plex User Data
+     * This function saves the user's Plex username and email
+     * to inform the user which plex account they used to
+     * authenticate Flixarr with.
+     */
+    public function savePlexUserData(): void
+    {
+        // Get account information from plex
+        $response = $this->call('/users/account');
+
+        // Validate account information
+        if (array_key_exists('email', $response) && array_key_exists('username', $response)) {
+            settings([
+                'plex.email' => $response['email'],
+                'plex.username' => $response['username'],
+            ]);
+        }
     }
 
     /**

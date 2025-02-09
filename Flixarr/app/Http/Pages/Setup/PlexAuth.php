@@ -31,7 +31,7 @@ class PlexAuth extends Component
     public function load(): void
     {
         // Verify the user is not already authenticated
-        if (settings('plex_token')) {
+        if (settings('plex.auth.token')) {
             $this->redirect(route('setup.plex-servers'), false);
 
             return;
@@ -95,9 +95,18 @@ class PlexAuth extends Component
 
     public function plexAuthCompleted(): bool
     {
+        $plexTv = new PlexTv;
+
+        $response = $plexTv->call('/users/account');
+
+        // dd($response);
+
         // Check if plex auth was actually completed
-        if ((new PlexTv)->verifyAuth()) {
-            // Redirect to next step
+        if ($plexTv->verifyAuth()) {
+            // Auth was successful
+            // Save plex user data
+            $plexTv->savePlexUserData();
+            // Redirect to the next step
             $this->redirect(route('setup.plex-servers'), navigate: false);
         } else {
             toast()->danger('There was a problem authenticating your Plex account. Please refresh the page and try again.', 'Plex Authentication Error')->push();

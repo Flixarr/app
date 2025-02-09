@@ -2,13 +2,16 @@
 
 namespace App\Services;
 
+use App\Models\Service;
 use Illuminate\Support\Facades\Http;
 use Str;
+
+use function PHPSTORM_META\map;
 
 class Radarr
 {
     public string $protocol;
-    public string $host;
+    public string $address;
     public int $port;
     public string $key;
 
@@ -17,7 +20,7 @@ class Radarr
         if (!empty($connection)) {
             // Use custom connection (mainly for setup)
             $this->protocol = $connection['ssl'] ? 'https' : 'http';
-            $this->host = $connection['host'];
+            $this->address = $connection['address'];
             $this->port = $connection['port'];
             $this->key = $connection['key'];
         } else {
@@ -31,34 +34,76 @@ class Radarr
     public function call(string $path, array $params = [], int $timeout = 5): \Illuminate\Http\Client\Response|array|string
     {
         // Build the URL to your local plex server
-        $url = $this->protocol . '://' . $this->host . ':' . $this->port . $path;
+        $url = $this->protocol . '://' . $this->address . ':' . $this->port . $path;
 
         // Make the API call
         try {
             $response = Http::withHeaders(['X-Api-Key' => $this->key])->connectTimeout($timeout)->get($url, $params);
         } catch (\Throwable $error) {
+            $error_message = $error->getMessage();
+            $error_data = [
+                'path' => $path,
+                'params' => $params,
+                'location' => [
+                    'file' => __FILE__,
+                    'namespace' => __NAMESPACE__,
+                    'class' => __CLASS__,
+                    'method' => __METHOD__,
+                    'trait' => __TRAIT__,
+                    'function' => __FUNCTION__,
+                    'line' => __LINE__,
+                ],
+                'getMessage' => $error->getMessage(),
+                'getCode' => $error->getCode(),
+            ];
+
             // Check if 408 (timeout) error
-            if (Str::contains($error->getMessage(), ['SSL', 'certificate'])) {
+            if (Str::contains($error_message, ['Connection refused', 'Connection timeout'])) {
                 return [
-                    'error' => 'There was an issue with the SSL certificate. Disable SSL and try again.',
-                    // 'error' => 'There was an issue with the SSL certificate. Try to disable "Use SSL" and try again.',
-                    'data' => $error->getMessage(),
+                    'error' => 'There was an issue communicating with your Radarr service. Double-check the connection details and try again.',
+                    'data' => $error_data,
+                ];
+            } else if (Str::contains($error_message, ['SSL', 'certificate'])) {
+                return [
+                    'error' => 'There was an issue with the SSL certificate. Make sure you are using the correct port number. Usually, when using SSL with a hostname/domain, port 443 is used.',
+                    'data' => $error_data
                 ];
             } else {
                 return [
-                    'error' => 'There was an issue communicating with Radarr. Please report this error. (408)',
-                    'data' => $error->getMessage(),
+                    'error' => 'There was an unknown error communicating with Radarr. Please report this error via GitHub issues.',
+                    'data' => $error_data,
                 ];
             }
         }
 
         if ($response->failed()) {
-            return [
-                'error' => [
-                    'status' => $response->status(),
-                    'body' => $response->body(),
-                    'object' => $response->object(),
+            $error_data = [
+                'path' => $path,
+                'params' => $params,
+                'location' => [
+                    'file' => __FILE__,
+                    'namespace' => __NAMESPACE__,
+                    'class' => __CLASS__,
+                    'method' => __METHOD__,
+                    'trait' => __TRAIT__,
+                    'function' => __FUNCTION__,
+                    'line' => __LINE__,
                 ],
+                'status' => $response->status() ?? '',
+                'body' => $response->body() ?? '',
+                'object' => $response->object() ?? '',
+            ];
+
+            if ($response->status() == 401) {
+                return [
+                    'error' => 'Invalid API Key',
+                    'data' => $error_data,
+                ];
+            }
+
+            return [
+                'error' => 'There was an unknown error communicating with Radarr. Please report this error via GitHub issues.',
+                'data' => $error_data,
             ];
         }
 
@@ -86,9 +131,16 @@ class Radarr
         // Ensure Radarr version is greater than or equal to the current version
 
         // Save service
-        $radarr = Service::create([
-            'name' => 'Radarr',
-        ]);
+        // If a service with the same API Key is saved, update instead of create
+        $service = Service::where('key', $this->key)->firstOrNew();
+        $service->name = 'Radarr';
+        $service->protocol = $this->protocol;
+        $service->address = $this->address;
+        $service->port = $this->port;
+        $service->key = $this->key;
+        $service->save();
+
+        return $service->toArray();
     }
 
     /**
@@ -102,7 +154,7 @@ class Radarr
     {
         $response = $this->call('/api/v3/system/status');
 
-        // If there was a call error, return the error
+        // If there was a call error, forward the error
         if (hasError($response)) {
             return $response;
         }

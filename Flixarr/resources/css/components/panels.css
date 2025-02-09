@@ -1,6 +1,6 @@
 @layer components {
     .panel {
-        @apply w-full rounded-lg border card-padding bg-gray-900/40 transition;
+        @apply w-full transition border rounded-lg card-padding bg-gray-900/40;
         /* @apply inline-flex items-center justify-between w-full p-5 space-x-5 text-left transition-colors border rounded-lg cursor-pointer hover:shadow-xl group hover:border-gray-700 border-gray-700/40 bg-gray-900/30; */
     }
 
@@ -21,6 +21,6 @@
     }
 
     .panel-desc {
-        @apply text-sm font-medium leading-6 text-muted;
+        @apply text-sm font-medium leading-6 text-gray-500;
     }
 }

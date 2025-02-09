@@ -23,7 +23,7 @@ class Services extends Component
     public function load(): void
     {
         // Prevent user from visiting this page without a plex auth token
-        if (!settings('plex_token')) {
+        if (!settings('plex.auth.token')) {
             $this->redirect(route('setup.plex-auth'), false);
 
             return;
@@ -40,17 +40,17 @@ class Services extends Component
             'radarr' => [
                 'image' => 'https://i.imgur.com/WDp2BhX.png',
                 'ssl' => false,
-                'host' => '192.168.1.3',
-                'port' => '7878',
-                'key' => '770d40dda2bd49148f83c89bf8b84055',
+                'address' => '192.168.1.1',
+                'port' => '35504',
+                'key' => '38c65058a7b646a5a908b54fb0492c6c',
                 'connected' => false,
             ],
             'sonarr' => [
                 'image' => 'https://i.imgur.com/1c5IYiv.png',
                 'ssl' => false,
-                'host' => '192.168.1.3',
-                'port' => '7878',
-                'key' => '770d40dda2bd49148f83c89bf8b84055',
+                'address' => '',
+                'port' => '8989',
+                'key' => '',
                 'connected' => false,
             ],
         ];
@@ -61,22 +61,15 @@ class Services extends Component
         // Initialize the Radarr Connection
         $initStatus = (new Radarr($this->services[$service]))->initConnection();
 
-        if (hasError($initStatus, showToast: true)) {
+        if (hasError($initStatus, logError: true, showToast: true, toastType: "warning", stickyToast: false)) {
             return;
         }
 
-        // $connection[$service] = [
-        //     'protocol' => $this->services[$service]['ssl'],
-        //     'host' => $this->services[$service]['host'],
-        //     'port' => $this->services[$service]['port'],
-        //     'key' => $this->services[$service]['key'],
-        // ];
+        // Set service as connected
+        $this->services[$service]['connected'] = true;
 
-        // $this->services[$service]['connected'] = true;
-
-        // $this->dispatch('completed');
-
-        // toast()->debug($service)->push();
+        // Dispatch completed actions to minimize service panel
+        $this->dispatch('completed');
     }
 
     public function resetServices(): void

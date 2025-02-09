@@ -7,10 +7,10 @@
         @apply p-5;
     }
     .card-flex {
-        @apply flex-col space-y-5 flex;
+        @apply flex flex-col space-y-5;
     }
     .card {
-        @apply flex flex-col space-y-10 text-muted-lighter shadow tablet:rounded border border-x-0 tablet:border-x;
+        @apply flex flex-col space-y-10 border shadow text-gray-500-lighter tablet:rounded border-x-0 tablet:border-x;
     }
     .card {
         @apply bg-gray-800/40
@@ -23,6 +23,6 @@
         @apply text-2xl font-medium text-white;
     }
     .card-desc {
-        @apply text-sm text-muted-light tablet:text-base;
+        @apply text-sm text-gray-500-light tablet:text-base;
     }
 }

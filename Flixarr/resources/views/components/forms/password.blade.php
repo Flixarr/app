@@ -3,7 +3,7 @@
     <div class="relative">
         <input class="@error($wiremodel) form-input-error @enderror form-input !pr-10" id="{{ $wiremodel }}" name="{{ $wiremodel }}" :type="showPassword ? 'text' : 'password'" wire:model="{{ $wiremodel }}" placeholder="{{ $placeholder }}" wire:loading.attr="disabled">
         <div class="flex-center absolute right-0 top-0 h-[35px] px-2">
-            <button class="text-muted" type="button" x-on:click="showPassword = !showPassword">
+            <button class="text-gray-500" type="button" x-on:click="showPassword = !showPassword">
                 <svg class="" x-show="!showPassword" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                     <path stroke="none" d="M0 0h24v24H0z" fill="none" />
                     <path d="M10 12a2 2 0 1 0 4 0a2 2 0 0 0 -4 0" />

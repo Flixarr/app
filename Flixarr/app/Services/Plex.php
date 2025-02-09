@@ -21,7 +21,7 @@ class Plex
         $this->protocol = $connection['protocol'];
         $this->address = $connection['address'];
         $this->port = $connection['port'];
-        $this->access_token = settings('plex_token');
+        $this->access_token = settings('plex.auth.token');
     }
 
     /**

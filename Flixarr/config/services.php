@@ -30,7 +30,14 @@ return [
         'region' => env('AWS_DEFAULT_REGION', 'us-east-1'),
     ],
 
-    'radarr' => [
-        'version' => '5.8.3.8933',
-    ],
+    /*
+    * Custom Services
+    * Will implement later
+    */
+    // 'radarr' => [
+    //     'version' => '5.8.3.8933',
+    // ],
+    // 'sonarr' => [
+    //     'version' => '',
+    // ]
 ];

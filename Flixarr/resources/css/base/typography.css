@@ -47,15 +47,15 @@
     }
 
     .text-logo {
-        @apply px-2 text-white underline font-logo drop-shadow-xl underline-offset-2 decoration-primary;
+        @apply px-2 text-white underline font-[logo] drop-shadow-xl underline-offset-2 decoration-[primary];
     }
 
     .text-sub {
-        @apply text-xs text-muted-dark tracking-wide leading-4;
+        @apply text-xs leading-4 tracking-wide text-gray-600;
     }
 
     .text-link {
-        @apply text-white underline underline-offset-2 decoration-primary;
+        @apply text-white underline underline-offset-2 decoration-[primary];
     }
 
     .text-link[target="_blank"] {

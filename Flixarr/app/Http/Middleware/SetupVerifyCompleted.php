@@ -15,7 +15,7 @@ class SetupVerifyCompleted
      */
     public function handle(Request $request, Closure $next): Response
     {
-        if (!settings('setup_completed')) {
+        if (!settings('setup.completed')) {
             return redirect()->route('dashboard');
         }
 

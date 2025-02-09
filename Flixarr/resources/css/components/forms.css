@@ -1,8 +1,7 @@
 @layer components {
-
     /** Form Element Utility */
     .form-grid {
-        @apply grid grid-cols-12 gap-5
+        @apply grid grid-cols-12 gap-5;
     }
 
     .form-disabled {
@@ -19,7 +18,7 @@
 
     /** Defaults */
     .form-input {
-        @apply block read-only:cursor-wait w-full py-2 px-4 border-0 rounded-lg shadow-md bg-gray-800/50 ring-1 ring-inset ring-gray-700/40 placeholder:text-muted/50 focus:ring-inset focus:ring-primary text-sm sm:text-base sm:leading-6;
+        @apply block w-full px-4 py-2 text-sm border-0 rounded-lg shadow-md read-only:cursor-wait bg-gray-800/50 ring-1 ring-inset ring-gray-700/40 placeholder:text-gray-500/50 focus:ring-inset focus:ring-[primary] sm:text-base sm:leading-6;
     }
 
     .form-input-error {
@@ -31,7 +30,7 @@
     }
 
     .form-label {
-        @apply text-sm font-medium leading-6 text-muted tracking-wide;
+        @apply text-sm font-medium leading-6 tracking-wide text-gray-500;
     }
 
     .form-label-error {
@@ -39,7 +38,7 @@
     }
 
     .form-desc {
-        @apply text-xs text-muted tracking-wide font-medium;
+        @apply text-xs font-medium tracking-wide text-gray-500;
     }
 
     /** Text Input */

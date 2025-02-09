@@ -24,7 +24,7 @@ class PlexServers extends Component
     public function rules()
     {
         return [
-            'custom_connection.host' => ['required', new ValidHost],
+            'custom_connection.address' => ['required', new ValidHost],
             'custom_connection.port' => ['required', 'integer', 'between:1,65535'],
         ];
     }
@@ -32,7 +32,7 @@ class PlexServers extends Component
     public function validationAttributes()
     {
         return [
-            'custom_connection.host' => 'Hostname / IP Address',
+            'custom_connection.address' => 'Hostname / IP Address',
             'custom_connection.port' => 'Port',
         ];
     }
@@ -45,8 +45,10 @@ class PlexServers extends Component
 
     public function load(): void
     {
+        (new PlexTv)->savePlexUserData();
+
         // Prevent user from visiting this page without a plex auth token
-        if (!settings('plex_token')) {
+        if (!settings('plex.auth.token')) {
             $this->redirect(route('setup.plex-auth'), false);
 
             return;
@@ -54,7 +56,7 @@ class PlexServers extends Component
 
         // Build custom connection array
         $this->custom_connection = [
-            'host' => '',
+            'address' => '',
             'port' => '32400',
             'ssl' => false,
         ];
@@ -117,7 +119,8 @@ class PlexServers extends Component
                         'online' => '0',
                     ],
                 ],
-            ], [
+            ],
+            [
                 'name' => 'Test Server',
                 'platform' => 'Linux',
                 'device' => 'DS218',
@@ -185,7 +188,7 @@ class PlexServers extends Component
         // Build connection array
         $this->selected_connection = [
             'protocol' => (isset($this->custom_connection['ssl']) && $this->custom_connection['ssl']) ? 'https' : 'http',
-            'address' => $this->custom_connection['host'],
+            'address' => $this->custom_connection['address'],
             'port' => $this->custom_connection['port'],
         ];
 
@@ -220,7 +223,7 @@ class PlexServers extends Component
     public function resetPlexAuth(): void
     {
         // Clear plex token if we have one
-        settings(['plex_token' => null]);
+        settings(['plex.auth.token' => null]);
         $this->redirect(route('setup.plex-auth'), navigate: false);
     }
 }

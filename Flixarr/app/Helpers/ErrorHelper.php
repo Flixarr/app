@@ -3,13 +3,25 @@
 /**
  * Returns bool if error exists
  */
-function hasError(mixed $response, bool $showToast = false, ?string $toastTitle = null): bool
+function hasError(mixed $response, bool $logError = false, bool $showToast = false, ?string $toastTitle = null, ?string $toastType = "danger", ?bool $stickyToast = true, ?int $toastDuration = null): bool
 {
     if (is_array($response) && array_key_exists('error', $response)) {
         // Has error
         if ($showToast) {
-            toast()->danger($response['error'], $toastTitle)->sticky()->push();
+            if ($stickyToast) {
+                toast()->$toastType($response['error'], $toastTitle)->duration($toastDuration ?? config('tall-toasts.duration'))->sticky()->push();
+            } else {
+                toast()->$toastType($response['error'], $toastTitle)->duration($toastDuration ?? config('tall-toasts.duration'))->push();
+            }
         }
+
+        if ($logError) {
+            Log::info($response['error']);
+            Log::error(
+                var_export($response['data'], true)
+            );
+        }
+
 
         return true;
     } else {
