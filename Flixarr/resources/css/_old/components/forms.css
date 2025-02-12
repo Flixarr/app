@@ -1,0 +1,67 @@
+@utility form-grid {
+    /** Form Element Utility */
+    @apply grid grid-cols-12 gap-5;
+}
+
+@utility form-disabled {
+    @apply opacity-50;
+}
+
+@utility form-element-spacing {
+    @apply flex flex-col space-y-2;
+}
+
+@utility form-input {
+    /** Defaults */
+    @apply block w-full px-4 py-2 text-sm border-0 rounded-lg shadow-md read-only:cursor-wait bg-gray-800/50 ring-1 ring-inset ring-gray-700/40 placeholder:text-gray-500/50 focus:ring-inset focus:ring-[primary] sm:text-base sm:leading-6;
+
+    &:read-only {
+        @apply form-disabled;
+    }
+}
+
+@utility form-input-error {
+    @apply ring-red-500!;
+}
+
+@utility form-label {
+    @apply text-sm font-medium leading-6 tracking-wide text-gray-500;
+}
+
+@utility form-label-error {
+    @apply text-red-500!;
+}
+
+@utility form-desc {
+    @apply text-xs font-medium tracking-wide text-gray-500;
+}
+
+@utility form-text {
+    /** Text Input */
+    @apply form-element-spacing;
+
+    & span {
+        @apply form-label;
+    }
+
+    & input {
+        @apply form-input;
+    }
+}
+
+@utility form-toggle {
+    /** Toggle */
+    @apply inline-flex items-center cursor-pointer;
+
+    & input {
+        @apply sr-only;
+    }
+
+    & div {
+        @apply relative mb-px w-11 h-6 bg-gray-800/50 rounded-full ring-1 ring-inset ring-gray-700/40 after:content-[''] after:absolute after:top-[1.5px] after:start-[2px] after:bg-gray-400 after:border-gray-500 after:border after:rounded-full after:h-5 after:w-5 after:transition-all;
+    }
+
+    & span {
+        @apply px-5 form-label;
+    }
+}

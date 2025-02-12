@@ -1,0 +1,27 @@
+@utility transition {
+    @apply duration-200;
+}
+
+/* @utility border {
+    @apply border-gray-700/40 ring-gray-700/40 divide-gray-700/40;
+} */
+
+/* @utility ring {
+    @apply border-gray-700/40 ring-gray-700/40 divide-gray-700/40;
+} */
+
+/* @utility divide {
+    @apply border-gray-700/40 ring-gray-700/40 divide-gray-700/40;
+} */
+
+@utility border-hover {
+    @apply border-gray-700/60;
+}
+
+/* @utility rounded {
+    @apply rounded-lg!;
+} */
+
+/* @utility shadow {
+    @apply shadow-xl!;
+} */

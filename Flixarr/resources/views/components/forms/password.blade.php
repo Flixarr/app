@@ -1,7 +1,7 @@
 <label class="form-text" for="{{ $wiremodel }}" x-data="{ showPassword: false }">
     <span class="@error($wiremodel) form-label-error @enderror">{{ $label }}</span>
     <div class="relative">
-        <input class="@error($wiremodel) form-input-error @enderror form-input !pr-10" id="{{ $wiremodel }}" name="{{ $wiremodel }}" :type="showPassword ? 'text' : 'password'" wire:model="{{ $wiremodel }}" placeholder="{{ $placeholder }}" wire:loading.attr="disabled">
+        <input class="@error($wiremodel) form-input-error @enderror form-input pr-10!" id="{{ $wiremodel }}" name="{{ $wiremodel }}" :type="showPassword ? 'text' : 'password'" wire:model="{{ $wiremodel }}" placeholder="{{ $placeholder }}" wire:loading.attr="disabled">
         <div class="flex-center absolute right-0 top-0 h-[35px] px-2">
             <button class="text-gray-500" type="button" x-on:click="showPassword = !showPassword">
                 <svg class="" x-show="!showPassword" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">

@@ -1,4 +1,3 @@
-@import "./components/forms";
-@import "./components/cards";
-@import "./components/buttons";
-@import "./components/panels";
+@import "./components/buttons.css";
+@import "./components/cards.css";
+@import "./components/panels.css";

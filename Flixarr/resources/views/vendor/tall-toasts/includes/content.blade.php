@@ -1,4 +1,4 @@
-<div class="px-3 py-2 bg-gray-900 border rounded-full shadow-2xl cursor-pointer group bg-gradient-to-r m-3 mb-0 tablet:mr-8" :class="{
+<div class="px-3 py-2 bg-gray-900 border rounded-full shadow-2xl cursor-pointer group bg-linear-to-r m-3 mb-0 tablet:mr-8" :class="{
     'from-blue-700/30 to-blue-950/5 to-80% border-gray-700/50': toast.type === 'info',
     'from-green-600/30 to-red-950/10 to-90% border-gray-700/50': toast.type === 'success',
     'from-yellow-500/30 to-red-950/10 to-80% border-gray-700/50': toast.type === 'warning',

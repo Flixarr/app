@@ -22,7 +22,7 @@
                             <div x-data="{ open: false }" x-on:click.away="open = false" @completed.window="open = false">
                                 <div class="flex space-x-5 panel hover:panel-hover group" :class="open && 'panel-active'" x-on:click="open = !open">
                                     <div class="flex-center">
-                                        <div class="w-12 h-12 rounded">
+                                        <div class="w-12 h-12 rounded-sm">
                                             <img class="w-full shadow-white drop-shadow-2xl" src="{{ $details['image'] }}" alt="" :class="open && 'panel-hover'">
                                         </div>
                                     </div>
@@ -65,7 +65,7 @@
                                                 <x-forms.toggle wire:model.live="services.{{ $service }}.ssl" label="Use SSL" />
                                             </div>
                                             <div class="col-span-6">
-                                                <div class="flex-center !justify-end space-x-3">
+                                                <div class="flex-center justify-end! space-x-3">
                                                     <div wire:loading wire:target="submitService('{{ $service }}')">
                                                         <x-loading size="w-7 h-7" />
                                                     </div>

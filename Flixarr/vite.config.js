@@ -12,12 +12,12 @@ export default defineConfig(({ mode }) => {
             },
         },
         plugins: [
-            tailwindcss(),
             laravel({
                 input: ["resources/css/app.css", "resources/js/app.js"],
                 refresh: ["app/Http/**", "resources/views/**", "routes/**"],
                 usePolling: true,
             }),
+            tailwindcss(),
         ],
     };
 });

@@ -5,11 +5,12 @@ namespace App\Http\Pages\Setup;
 use App\Services\PlexTv;
 use App\Traits\WithLivewireLogger;
 use Illuminate\Contracts\View\View;
-use Livewire\Attributes\Layout;
+use Livewire\Attributes\Title;
 use Livewire\Component;
 use Livewire\Features\SupportRedirects\HandlesRedirects;
 use Usernotnull\Toast\Concerns\WireToast;
 
+#[Title('Setup')]
 class PlexAuth extends Component
 {
     use WireToast, WithLivewireLogger;
@@ -21,7 +22,6 @@ class PlexAuth extends Component
      * Render the Plex Signin button
      * asdf
      */
-    #[Layout('layouts.app', ['title' => 'Plex Authentication'])]
     public function render(): View
     {
         return view('pages.setup.plex-auth');

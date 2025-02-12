@@ -1,0 +1,22 @@
+@font-face {
+    font-family: "Inter";
+    font-weight: 100 200 300 400 500 600 700 800 900;
+    src: url(../../public/fonts/Inter.ttf) format("truetype");
+}
+@font-face {
+    font-family: "Logo";
+    src: url(../../public/fonts/logo-font.ttf) format("truetype");
+}
+
+.text-logo {
+    @apply px-2 text-6xl text-white underline font-[logo] drop-shadow-xl underline-offset-2 decoration-primary;
+}
+.text-sub {
+    @apply text-xs text-muted-dark;
+}
+.text-link {
+    @apply text-white underline underline-offset-2 decoration-primary;
+}
+.text-link[target="_blank"] {
+    @apply after:content-['_↗'] whitespace-nowrap;
+}

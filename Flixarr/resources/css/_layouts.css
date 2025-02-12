@@ -1,0 +1,5 @@
+@import "./layouts/minimal.css";
+
+.main-content {
+    @apply flex flex-col h-full space-y-10 overflow-y-auto;
+}

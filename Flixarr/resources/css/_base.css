@@ -1,16 +1,15 @@
-@import "./base/typography";
-
-@layer base {
-    html {
-        font-size: 14px;
-    }
-    body {
-        @apply h-full subpixel-antialiased text-white bg-gray-950 font-[inter];
-    }
-    body {
-        @apply bg-[radial-gradient(ellipse_at_center,_var(--tw-gradient-stops))] from-gray-700/50 to-gray-950/10;
-        /* @apply bg-[radial-gradient(ellipse_at_center,_var(--tw-gradient-stops))] from-gray-700/50 to-gray-800/10; */
-        /* @apply bg-[radial-gradient(ellipse_at_center,_var(--tw-gradient-stops))] from-gray-500/30 to-gray-800/30; */
-        /* @apply bg-[radial-gradient(ellipse_at_center,_var(--tw-gradient-stops))] from-gray-400/20 to-gray-950/90; */
-    }
+html {
+    font-size: var(--default-font-size);
+    font-family: var(--default-font-family);
+}
+body {
+    color: var(--default-text-color);
+    @apply h-full overflow-hidden bg-gray-950 bg-radial-[at_50%_25%] from-gray-800/80 to-gray-950/10;
+    /*
+        List of different background gradiants from previous version
+        - from-gray-700/50 to-gray-950/10
+        - from-gray-700/50 to-gray-800/10
+        - from-gray-500/30 to-gray-800/30
+        - from-gray-400/20 to-gray-950/90
+    */
 }

@@ -8,19 +8,19 @@
                     <p class="card-desc">First things first, we need to connect your Plex Account.</p>
                 </div>
 
-                <div x-show="loading">
+                <div class="mx-auto" x-show="loading">
                     <x-loading />
                 </div>
 
                 <div class="text-center" x-show="!loading" x-cloak>
-                    <button class="button button-primary text-base" x-on:click="initPlexAuth">
+                    <button class="text-base button button-primary button-w" x-on:click="initPlexAuth">
                         Sign in with Plex
                     </button>
                 </div>
             </div>
         </div>
 
-        <div class="card-padding text-center">
+        <div class="mt-10 text-center card-padding">
             <p class="text-sub">
                 Connecting your Plex account allows Flixarr to communicate with your Plex Media Server.
                 Your login details are never visible to Flixarr. More information can be found <a class="text-link"href="#" target="_blank">here</a>.
@@ -81,35 +81,39 @@
                         console.log('Polling Plex...')
                         // Check if the user has authenticated yet
                         @this.plexAuth().then(response => {
-                            console.log(response);
+                            console.log(response)
                             // The response will either be true for successful authentication, an array for an error,
                             // or false for an unsuccessful auth. If the auth was unsuccessful, we need to keep polling
                             // until it is.
 
                             // If the plex auth window was closed prematurely, stop polling and dispatch notifcation
                             if (plexWindow.closed) {
+                                console.log('Plex window closed prematurely.')
                                 // Quit Plex Auth
                                 this.quitPlexAuth()
+                                // Cancel loading
+                                this.loading = false
                             }
 
-                            // If the response is not null/false, stop polling
-                            if (plexWindow.closed || response) {
+                            // If the response is not null or false, stop polling
+                            if (response) {
                                 // Quit Plex Auth
                                 this.quitPlexAuth()
                                 // If response was bool, auth completed
                                 if (response === true) {
-                                    @this.plexAuthCompleted();
+                                    @this.plexAuthCompleted()
                                 }
                             }
                         })
                     }, pollingInterval);
                 },
                 quitPlexAuth() {
-                    console.log('Plex Auth ended.')
+                    console.log('Cancelling Plex Auth...')
                     // End polling
                     clearInterval(poll)
                     // Close the plex window
                     plexWindow.close()
+                    console.log('Plex Auth cancelled.')
                 }
             }))
         })

@@ -1,0 +1,32 @@
+@utility button-container {
+    /** Buttons */
+    @apply flex my-5 space-x-5 tablet:mx-5 tablet:mx-0 tablet:flex-row tablet:justify-end;
+}
+
+@utility button {
+    /* @apply w-full px-5 py-2 font-medium rounded-lg tablet:w-auto hover:brightness-125 hover:shadow disabled:brightness-100 disabled:cursor-wait; */
+    @apply w-full px-5 py-2 font-medium rounded-lg tablet:w-auto hover:border-hover hover:shadow-sm hover:cursor-pointer disabled:brightness-100 disabled:cursor-wait;
+
+    &:disabled {
+        @apply opacity-50;
+    }
+}
+
+@utility button-primary {
+    /* @apply text-white border bg-primary hover:brightness-110 hover:shadow-lg border-primary-light; */
+    /* @apply text-white bg-primary bg-gradient-to-br from-orange-800/5 to-black/50 border !border-primary-light/20; */
+    @apply text-white bg-primary/70 border border-primary! hover:to-black/60;
+}
+
+@utility button-muted {
+    /* @apply text-white bg-gray-800 border bg-gradient-to-br from-gray-900/50 to-gray-950/80 border-gray-700/60; */
+    @apply text-white border bg-gray-900/40 border-gray-700/60;
+}
+
+@utility button-sm {
+    @apply px-4 py-1.5 text-sm;
+}
+
+@utility button-wide {
+    @apply px-6;
+}

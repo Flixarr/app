@@ -1,28 +1,13 @@
-@layer components {
-    /** Cards */
-    .card-container {
-        @apply flex flex-col space-y-10;
-    }
-    .card-padding {
-        @apply p-5;
-    }
-    .card-flex {
-        @apply flex flex-col space-y-5;
-    }
-    .card {
-        @apply flex flex-col space-y-10 border shadow text-gray-500-lighter tablet:rounded border-x-0 tablet:border-x;
-    }
-    .card {
-        @apply bg-gray-800/40
-        /* @apply bg-[radial-gradient(ellipse_at_center,_var(--tw-gradient-stops))] from-gray-700/60 to-gray-800/20; */
-        /* @apply bg-[radial-gradient(ellipse_at_center,_var(--tw-gradient-stops))] from-gray-600/30 to-gray-800/10; */
-        /* @apply bg-[radial-gradient(ellipse_at_center,_var(--tw-gradient-stops))] from-gray-500/40 to-gray-800/50; */
-        /* @apply bg-[radial-gradient(ellipse_at_center,_var(--tw-gradient-stops))] from-gray-600/40 to-gray-900/90; */;
-    }
-    .card-title {
-        @apply text-2xl font-medium text-white;
-    }
-    .card-desc {
-        @apply text-sm text-gray-500-light tablet:text-base;
-    }
+.card-container {
+    @apply flex flex-col space-y-10;
+}
+.card {
+    @apply flex flex-col p-5 space-y-5 shadow border-y phone:border phone:rounded;
+    background-color: var(--default-card-bg-color);
+}
+.card-title {
+    @apply text-2xl font-medium text-white;
+}
+.card-desc {
+    @apply text-sm text-muted;
 }

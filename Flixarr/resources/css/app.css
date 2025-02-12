@@ -1,9 +1,54 @@
 @import "tailwindcss";
+/* @config "../../tailwind.config.js"; */
+@source "../views";
+
+@custom-variant dark (&:where(.dark, .dark *));
 
 @theme {
-    /*  */
+    /** Custom Colors */
+    --color-primary-light: var(--color-orange-500);
+    --color-primary: var(--color-orange-600);
+    --color-primary-dark: var(--color-orange-800);
+    --color-muted: var(--color-gray-400);
+    --color-muted-dark: var(--color-gray-600);
+    /** Layouts */
+    --breakpoint-*: initial;
+    --breakpoint-phone: 480px;
+    --breakpoint-tablet: 640px;
+    --breakpoint-laptop: 1024px;
+    --breakpoint-desktop: 1280px;
+    --breakpoint-2k: 1440px;
+    /** Components */
+    --default-card-bg-color: --alpha(var(--color-gray-800) / 40%);
+    /** Flexbox & Grid */
+    /** Spacing */
+    /** Sizing */
+    /** Typography */
+    --default-text-color: var(--color-white);
+    --default-font-size: 14px;
+    --default-font-family: "inter";
+    /** Backgrounds */
+    /** Borders */
+    --default-border-color: --alpha(var(--color-gray-700) / 40%);
+    --default-border-hover-color: --alpha(var(--color-gray-700) / 40%);
+    --default-border-radius: var(--radius-xl);
+    /** Effects */
+    --default-shadow-size: var(--shadow-xl);
+    /** Filters */
+    /** Tables */
+    /** Transitions & Animation */
+    --default-transition-duration: 200;
+    --default-transition-timing-function: ;
+    /** Transforms */
+    /** Interactivity */
+    /** SVG */
+    /** Accessibility */
 }
 
-@import "./_base";
-@import "./_components";
-@import "./_utilities";
+/* Needs to be imported before base and components */
+@import "./_utilities.css";
+
+@import "./_base.css" layer(base);
+@import "./_typography.css" layer(base);
+@import "./_layouts.css" layer(components);
+@import "./_components.css" layer(components);

@@ -1,0 +1,8 @@
+@import './utilities/livewire.css';
+@import './utilities/overrides.css';
+
+@layer utilities {
+    hr {
+        @apply w-1/2 h-0.5 mx-auto border-0 bg-gray-700/50;
+    }
+}

@@ -1,0 +1,29 @@
+@utility card-container {
+    /** Cards */
+    @apply flex flex-col space-y-10;
+}
+
+@utility card-padding {
+    @apply p-5;
+}
+
+@utility card-flex {
+    @apply flex flex-col space-y-5;
+}
+
+@utility card {
+    @apply flex flex-col space-y-10 text-gray-500 border shadow-sm border-x-0;
+    @apply bg-gray-800/40
+        /* @apply bg-[radial-gradient(ellipse_at_center,_var(--tw-gradient-stops))] from-gray-700/60 to-gray-800/20; */
+        /* @apply bg-[radial-gradient(ellipse_at_center,_var(--tw-gradient-stops))] from-gray-600/30 to-gray-800/10; */
+        /* @apply bg-[radial-gradient(ellipse_at_center,_var(--tw-gradient-stops))] from-gray-500/40 to-gray-800/50; */
+        /* @apply bg-[radial-gradient(ellipse_at_center,_var(--tw-gradient-stops))] from-gray-600/40 to-gray-900/90; */;
+}
+
+@utility card-title {
+    @apply text-2xl font-medium text-white;
+}
+
+@utility card-desc {
+    @apply text-sm text-gray-500;
+}
